@@ -13,7 +13,7 @@
         "appslabke/lara-izitoast": "^1.1",
         "barryvdh/laravel-dompdf": "^3.0",
         "guzzlehttp/guzzle": "^7.2",
-        "intervention/image": "^2.7",
+        "intervention/image-laravel": "^1.5",
         "laravel/framework": "^10.10",
         "laravel/jetstream": "^4.1",
         "laravel/sanctum": "^3.3",

@@ -22,6 +22,7 @@
                                 <tr>
                                     <th class="header_style_left">#</th>
                                     <th>Name</th>
+                                    <th>Image</th>
                                     <th class="header_style_right">Actions</th>
                                 </tr>
                             </thead>
@@ -33,6 +34,9 @@
                                     <tr>
                                         <td class="table_data_style_left">{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->name }}</td>
+                                        <td class="cat_image" style="width: 60px;">
+                                            <img class="img-fluid" src="{{ asset('uploads/category/' . $data->images) }}" alt="">
+                                        </td>
                                         <td class="table_data_style_right">
                                             <div class="dropdown">
                                                 <button class="btn add_list_btn btn-sm dropdown-toggle" type="button"
@@ -41,8 +45,7 @@
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                     @if (check_permission('category.update'))
-                                                        <a href="#" data-toggle="modal"
-                                                            data-target="#editModal-{{ $data->id }}"
+                                                        <a href="#" data-toggle="modal" data-target="#editModal-{{ $data->id }}"
                                                             class="dropdown-item text-primary{{ $data->id == 1 ? 'disabled' : '' }}">
                                                             <i class="feather icon-edit"></i> Edit
                                                         </a>
@@ -50,9 +53,8 @@
 
                                                     {{-- delete --}}
                                                     @if (check_permission('category.destroy'))
-                                                        @if ($count_cat<1)
-                                                            <a href="#" data-toggle="modal"
-                                                                data-target="#deleteModal-{{ $data->id }}"
+                                                        @if ($count_cat < 1)
+                                                            <a href="#" data-toggle="modal" data-target="#deleteModal-{{ $data->id }}"
                                                                 class="dropdown-item text-danger {{ $data->id == 1 ? 'disabled' : '' }}">
                                                                 <i class="feather icon-trash"></i> Delete
                                                             </a>
@@ -63,12 +65,16 @@
                                         </td>
                                     </tr>
 
-                                    {{-- edit modal  --}}
-                                    <form action="{{ route('category.update', $data->id) }}" method="POST">
+                                    {{-- edit modal --}}
+                                    <form action="{{ route('category.update', $data->id) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
                                         <x-edit-modal title="Edit Category" sizeClass="modal-md" id="{{ $data->id }}">
-                                            <x-input label="Name *" type="text" name="name" placeholder="Enter Name" required value="{{ $data->name }}" />
+                                            <x-input label="Name *" type="text" name="name" placeholder="Enter Name" required
+                                                value="{{ $data->name }}" />
+                                            <x-input label="Category Order *" type="number" name="order_by"
+                                                placeholder="Enter Category order" value="{{ $data->order_by }}" />
+                                            <x-input label="Category Image *" type="file" name="images" />
                                         </x-edit-modal>
                                     </form>
 
@@ -95,10 +101,12 @@
     </div>
 
     {{-- Add Modal --}}
-    <form action="{{ route('category.store') }}" method="POST">
+    <form action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <x-add-modal title="Add Category" sizeClass="modal-md">
             <x-input label="Category Name *" type="text" name="name" placeholder="Enter Category Name" required />
+            <x-input label="Category Order *" type="number" name="order_by" placeholder="Enter Category order" />
+            <x-input label="Category Image *" type="file" name="images" />
         </x-add-modal>
     </form>
 

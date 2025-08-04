@@ -171,8 +171,11 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Intervention\Image\Laravel\ServiceProvider::class, 
+        
+
+        
     ])->toArray(),
 
     /*
@@ -188,8 +191,9 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
-        'Image' => Intervention\Image\Facades\Image::class,
+     
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Image' => Intervention\Image\Facades\Image::class,
     ])->toArray(),
 
 ];
