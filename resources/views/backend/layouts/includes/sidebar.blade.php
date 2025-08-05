@@ -178,6 +178,36 @@
                     </li>
                 @endif
 
+                {{-- Sub Category --}}
+                @if (check_permission('subCategory.index'))
+                    <li>
+                        <a href="{{ route('subCategory.index') }}">
+                            <i class="fa fa-outdent"></i>
+                            <span>Sub Category</span>
+                        </a>
+                    </li>
+                @endif
+
+                {{-- banner --}}
+                @if (check_permission('banner.index'))
+                    <li>
+                        <a href="{{ route('banner.index') }}">
+                            <i class="fa fa-outdent"></i>
+                            <span>Banner</span>
+                        </a>
+                    </li>
+                @endif
+
+                {{-- Shop banner --}}
+                @if (check_permission('shopBanner.index'))
+                    <li>
+                        <a href="{{ route('shopBanner.index') }}">
+                            <i class="fa fa-outdent"></i>
+                            <span>Shop Banner</span>
+                        </a>
+                    </li>
+                @endif
+
                 {{-- Brand --}}
                 @if (check_permission('brand.index'))
                     <li>

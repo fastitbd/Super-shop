@@ -35,6 +35,9 @@ use App\Http\Controllers\Backend\ReturnPurchaseController;
 use App\Http\Controllers\Backend\BankTransactionController;
 use App\Http\Controllers\Backend\RolesPermissionController;
 use App\Http\Controllers\Backend\UsedProductPurchaseController;
+use App\Http\Controllers\Backend\SubCategoryController;
+use App\Http\Controllers\Backend\BannerController;
+use App\Http\Controllers\Backend\ShopBannerController;
 
 use App\Http\Controllers\Frontend\FrontendController;
 
@@ -122,6 +125,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
     // --------------------> category <--------------------
     Route::resource('category', CategoryController::class)->except(['show', 'edit', 'create']);
+        // -------------------->Sub category <--------------------
+    Route::resource('subCategory', SubCategoryController::class)->except(['show', 'edit', 'create']);
+
+    // --------------------> Banner<--------------------
+    Route::resource('banner', BannerController::class)->except(['show', 'edit', 'create']);
+
+    // --------------------> Shop banner<--------------------
+    Route::resource('shopBanner', ShopBannerController::class)->except(['show', 'edit', 'create']);
+
 
     // --------------------> color <--------------------
     Route::resource('color', ColorController::class);
