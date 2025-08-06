@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('url')->nullable(); 
             $table->integer('order_by')->nullable();
             $table->string('status')->default('1');
+            $table->string('position')->nullable();
             $table->string('images');
             $table->timestamps();
         });

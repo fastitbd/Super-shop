@@ -2,38 +2,38 @@
 @section('content')
 
 
-<section>
+    <section>
         <div class="banner_category">
             <div class="container">
                 <div class="row">
-<div class="col-6 col-md-3">
-    <div class="side_category">
-        <ul class="list_unstyled mt-3">
-            @php
-    use App\Models\Category;
-        $categories = Category::with('subcategories')->where('status',1)->get();
-    @endphp
-            @foreach($categories as $category)
-                <li>
-                    <a class="d-flex" href="#">
-                        <img src="{{ asset('uploads/category/' . $category->images) }}" 
-                             alt="{{ $category->name }}" 
-                             style="width: 30px; height: 30px; border-radius: 15%;">
-                        <span>{{ $category->name }}</span>
-                    </a>
-                    
-                    @if($category->subcategories->count() > 0)
-                        <ul class="sub_category">
-                            @foreach($category->subcategories as $sub)
-                                <li><a href="#">{{ $sub->name }}</a></li>
-                            @endforeach
-                        </ul>
-                    @endif
-                </li>
-            @endforeach
-        </ul>
-    </div>
-</div>
+                    <div class="col-6 col-md-3">
+                        <div class="side_category">
+                            <ul class="list_unstyled mt-3">
+                                @php
+                                    use App\Models\Category;
+                                    $categories = Category::with('subcategories')->where('status', 1)->get();
+                                @endphp
+                                @foreach($categories as $category)
+                                    <li>
+                                        <a class="d-flex" href="#">
+                                            <img src="{{ asset('uploads/category/' . $category->images) }}"
+                                                alt="{{ $category->name }}"
+                                                style="width: 30px; height: 30px; border-radius: 15%;">
+                                            <span>{{ $category->name }}</span>
+                                        </a>
+
+                                        @if($category->subcategories->count() > 0)
+                                            <ul class="sub_category">
+                                                @foreach($category->subcategories as $sub)
+                                                    <li><a href="#">{{ $sub->name }}</a></li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
 
 
                     <div class="col-12 col-md-9">
@@ -41,32 +41,33 @@
                             <div class="row">
                                 <div class="col-12">
                                     @php
-                                      $allbanner = App\Models\Banner::orderBy('id', 'ASC')->get();
+                                        $allbanner = App\Models\Banner::orderBy('id', 'ASC')->get();
                                     @endphp
                                     <div class="banner_image owl-carousel">
                                         @foreach ($allbanner as $banner)
-                                         <div class="item"><img src="{{ asset('uploads/banner/' . $banner->images) }}" alt="Banner 1"></div>
+                                            <div class="item"><img src="{{ asset('uploads/banner/' . $banner->images) }}"
+                                                    alt="Banner 1"></div>
                                         @endforeach
-                                       
-                                    
+
+
                                     </div>
                                 </div>
 
                             </div>
                             <div class="row mt-3">
-                                 @php
-                                      $allcategory = App\Models\Category::orderBy('id', 'ASC')->get();
-                                    @endphp 
+                                @php
+                                    $allcategory = App\Models\Category::orderBy('id', 'ASC')->get();
+                                @endphp
                                 <div class="banner_cart_slider owl-carousel">
-                                    @foreach ($allcategory as $category )
-                                    <div class="banner_card">
-                                        <div class="banner_card_image">
-                                            <img src="{{ asset('uploads/category/' . $category->images) }}" alt="">
+                                    @foreach ($allcategory as $category)
+                                        <div class="banner_card">
+                                            <div class="banner_card_image">
+                                                <img src="{{ asset('uploads/category/' . $category->images) }}" alt="">
+                                            </div>
+                                            <div class="card-body mt-2 mb-2" style="margin: 0px 15px;">
+                                                <button class="btn btn-warning w-100">{{ $category->name }}</button>
+                                            </div>
                                         </div>
-                                        <div class="card-body mt-2 mb-2" style="margin: 0px 15px;">
-                                            <button class="btn btn-warning w-100">{{ $category->name }}</button>
-                                        </div>
-                                    </div>
                                     @endforeach
                                 </div>
                             </div>
@@ -77,71 +78,73 @@
             </div>
         </div>
     </section>
-<section>
+    <section>
         <div class="product_part">
             <div class="container mt-5">
                 @php
-                $categories = App\Models\Category::where('status',1)->orderBy('id', 'ASC')->get();
+                    $categories = App\Models\Category::where('status', 1)->orderBy('id', 'ASC')->get();
                 @endphp
 
                 @foreach ($categories as $categori)
-                  @php
-                  $all_product=App\Models\Product::where('status',1)->where('category_id',$categori->id)->orderBy('id','asc')->get();
-                  @endphp
-                @if ($all_product->count() > 0)
-                <div class="common_heading text-center">
-                    <h5>{{ $categori->name }}</h5>
-                </div>
-                <div class="row">
-                    <div class="product_slider owl-carousel">
-                      @foreach ($all_product as $product)
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="{{ asset("uploads/products/" . $product->images) }}" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                                  @if(!empty($product->discount) && $product->discount > 0)
-                                    <div class="product_offer">
-                                        <p>save <span>{{ $product->discount }}%</span></p>
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="product_body mt-1">
-                                <div class="product_code">
-                                    <p>CODE: <span>{{$product->barcode}}</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>{{$product->name}}</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳{{$product->selling_price}}</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
+                    @php
+                        $all_product = App\Models\Product::where('status', 1)->where('category_id', $categori->id)->orderBy('id', 'asc')->get();
+                      @endphp
+                    @if ($all_product->count() > 0)
+                        <div class="common_heading text-center">
+                            <h5>{{ $categori->name }}</h5>
                         </div>
-                        @endforeach
+                        <div class="row">
+                            <div class="product_slider owl-carousel">
+                                @foreach ($all_product as $product)
+                                    <div class="product_card">
+                                        <div class="product_image">
+                                           <a href="{{ url('/product/details/' . $product->slug) }}">
+                                            <img src="{{ asset("uploads/products/" . $product->images) }}" alt="Product">
+                                            <div class="product_image_overly">
+                                                <i class="fa-solid fa-heart-circle-plus"></i>
+                                            </div>
+                                            @if(!empty($product->discount) && $product->discount > 0)
+                                                <div class="product_offer">
+                                                    <p>save <span>{{ $product->discount }}%</span></p>
+                                                </div>
+                                            @endif
+                                            </a>
+                                        </div>
+                                        <div class="product_body mt-1">
+                                            <div class="product_code">
+                                                <p>CODE: <span>{{$product->barcode}}</span></p>
+                                            </div>
+                                            <div class="product_name">
+                                                <p>{{$product->name}}</p>
+                                            </div>
+                                            <div class="product_stock">
+                                                <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
+                                            </div>
+                                        </div>
+                                        <div class="product_prices  d-flex justify-content-between align-items-center">
+                                            <div class="product_price">
+                                                <p class="old_price">৳70.00</p>
+                                                <p class="new_price">৳{{$product->selling_price}}</p>
+                                            </div>
+                                            <button class="cart_btn">
+                                                <i class="bi bi-cart"></i>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                @endforeach
 
 
 
-                   
-                    </div>
-                </div>
-                @endif
+
+                            </div>
+                        </div>
+                    @endif
                 @endforeach
             </div>
         </div>
     </section>
-<section>
+    <section>
         <div class="product_part">
             <div class="container mt-5">
                 <div class="common_heading text-center">
@@ -502,7 +505,7 @@
             </div>
         </div>
     </section>
-<section>
+    <section>
         <div class="product_part">
             <div class="container mt-5">
                 <div class="common_heading text-center">
@@ -860,7 +863,7 @@
         </div>
     </section>
 
-<section>
+    <section>
         <div class="product_part">
             <div class="container mt-5">
                 <div class="common_heading text-center">
@@ -1223,27 +1226,29 @@
     </section>
 
 <section>
-        <div class="middle_banner">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 col-md-5">
+    <div class="middle_banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-5">
+                    @foreach($shopbanners->where('position','left') as $banner)
                         <div class="middle_banner_one">
-                            <img src="{{ asset("frontend") }}/images/middle-banner1.jpeg" alt="">
+                            <img src="{{ asset('uploads/shopbanner/' . $banner->images) }}" alt="">
                         </div>
-                        <div class="middle_banner_one">
-                            <img src="{{ asset("frontend") }}/images/middle-banner2.jpeg" alt="">
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-7">
+                    @endforeach
+                </div>
+                <div class="col-12 col-md-7">
+                    @foreach($shopbanners->where('position','right') as $banner)
                         <div class="middle_banner_two">
-                            <img src="{{ asset("frontend") }}/images/middle-banner3.jpeg" alt="">
+                            <img src="{{ asset('uploads/shopbanner/' . $banner->images) }}" alt="">
                         </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
-    </section>
-<section>
+    </div>
+</section>
+
+    <section>
         <div class="product_part">
             <div class="container mt-5">
                 <div class="common_heading text-center">
@@ -1604,7 +1609,7 @@
             </div>
         </div>
     </section>
-<section>
+    <section>
         <div class="product_part">
             <div class="container mt-5">
                 <div class="common_heading text-center">
@@ -1965,7 +1970,7 @@
             </div>
         </div>
     </section>
-<section>
+    <section>
         <div class="product_part">
             <div class="container mt-5">
                 <div class="common_heading text-center">

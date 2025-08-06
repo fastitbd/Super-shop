@@ -37,6 +37,7 @@ class ShopBannerController extends Controller
         $shopbanner->name = $request->name;
         $shopbanner->url = $url;
         $shopbanner->order_by = $request->order_by;
+        $shopbanner->position = $request->position;
 
 
         if ($request->hasFile('images')) {
@@ -85,6 +86,7 @@ class ShopBannerController extends Controller
         $shopbanner->name = $request->name;
         $shopbanner->url = $url;
         $shopbanner->order_by = $request->order_by;
+        $shopbanner->position = $request->position; 
 
         if ($request->hasFile('images')) {
             $image = $request->file('images');

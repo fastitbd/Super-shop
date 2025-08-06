@@ -27,6 +27,7 @@ return new class extends Migration
             $table->decimal('discount')->nullable();
             $table->string('is_service')->nullable();
             $table->text('description')->nullable();
+            $table->string('slug')->nullable();
             $table->tinyInteger('has_serial')->nullable();
             $table->string('images')->nullable();
             $table->string('status')->default(1);

@@ -22,6 +22,7 @@
                                 <tr>
                                     <th class="header_style_left">#</th>
                                     <th>Name</th>
+                                    <th>Position</th>
                                     <th>Image</th>
                                     <th class="header_style_right">Actions</th>
                                 </tr>
@@ -34,6 +35,7 @@
                                     <tr>
                                         <td class="table_data_style_left">{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->name }}</td>
+                                        <td>{{ $data->position }}</td>
                                         <td class="cat_image" style="width: 60px;">
                                             <img class="img-fluid" src="{{ asset('uploads/shopbanner/' . $data->images) }}" alt="">
                                         </td>
@@ -72,9 +74,10 @@
                                         <x-edit-modal title="Edit Banner" sizeClass="modal-md" id="{{ $data->id }}">
                                             <x-input label="Name *" type="text" name="name" placeholder="Enter Name"
                                                 value="{{ $data->name }}" />
+                                                <x-input label="Banner Position *" type="text" name="position" placeholder="Enter Banner position"  value="{{ $data->position }}"/>
                                             <x-input label="Banner Order *" type="number" name="order_by"
                                                 placeholder="Enter Banner order" value="{{ $data->order_by }}" />
-                                            <x-input label="Banner Image *" type="file" name="images"  required/>
+                                            <x-input label="Banner Image *" type="file" name="images" />
                                         </x-edit-modal>
                                     </form>
 
@@ -103,6 +106,7 @@
         @csrf
         <x-add-modal title="Add Banner" sizeClass="modal-md">
             <x-input label="Banner Name *" type="text" name="name" placeholder="Enter Banner Name"  />
+             <x-input label="Banner Position *" type="text" name="position" placeholder="Enter Banner position" />
             <x-input label="Banner Order *" type="number" name="order_by" placeholder="Enter Banner order" />
             <x-input label="Banner Image *" type="file" name="images" required/>
         </x-add-modal>

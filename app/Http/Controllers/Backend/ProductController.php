@@ -18,6 +18,7 @@ use App\Models\Variation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Image;
 
 class ProductController extends Controller
@@ -137,6 +138,8 @@ class ProductController extends Controller
             ]
         );
 
+        $slug = 'P' . Str::upper(Str::random(10));
+
         $product = new Product();
         $product->name = $request->name;
         $product->date = date('Y-m-d');
@@ -159,6 +162,7 @@ class ProductController extends Controller
         $product->discount = $request->discount;
         $product->status = $request->status;
         $product->description = $request->description;
+        $product->slug = $slug;
         $product->created_by = Auth::user()->id;
 
         if ($product->save()) {
@@ -223,6 +227,8 @@ class ProductController extends Controller
             'status' => 'required',
         ]);
 
+        $slug = 'P' . Str::upper(Str::random(10));
+
         $product = Product::findorfail($id);
         $product->name = $request->name;
         $numberBarcode = rand(000000, 999999);
@@ -242,6 +248,7 @@ class ProductController extends Controller
         $product->discount = $request->discount;
         $product->status = $request->status;
         $product->description = $request->description;
+        $product->slug = $slug;
 
         if ($product->save()) {
             $existingVariations = ProductVariation::where('product_id', $product->id)->get();
