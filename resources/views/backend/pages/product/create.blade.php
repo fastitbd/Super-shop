@@ -33,12 +33,13 @@
                                 <div class="row">
                                     <div class="col-md-11 col-10" style="margin-right: -6px">
                                         <label for="unit_id" class="frm_lbl">Category *</label>
-                                        <select class="select2" name="category_id" id="categoryId">
-                                            <option selected value="">Select Category</option>
-                                            @foreach ($categories as $category)
-                                                <option value={{ $category->id }}>{{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
+                                      <select class="select2" name="category_id" id="categoryId">
+                                        <option value="">Select Category</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+
                                         <div class="errors">
                                             {{ $errors->has('category_id') ? $errors->first('category_id') : '' }}</div>
                                     </div>
@@ -50,6 +51,30 @@
                                                 class="btn extra_btn">
                                                 <i class="feather icon-plus"></i>
                                             </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            {{--Sub Category --}}
+                              <div class="mt-2 col-sm-6 col-md-6 ">
+                                <div class="row">
+                                    <div class="col-md-11 col-10" style="margin-right: -6px">
+                                        <label for="unit_id" class="frm_lbl">Sub Category *</label>
+                                       <select class="select2" name="subcategory_id" id="subCategoryId">
+                                            <option value="">Select Sub Category</option>
+                                        </select>
+                                        <div class="errors">
+                                            {{ $errors->has('category_id') ? $errors->first('category_id') : '' }}</div>
+                                    </div>
+                                    <div class="col-sm-1 col-md-1 col-2 m-0 p-0">
+                                        <label class="form-label font-weight-bold"></label>
+                                        <div class="" style="margin-top: 10px">
+                                            
+                                            <button type="button" class="btn extra_btn" data-toggle="modal" data-target="#exampleModal">
+                                               <i class="feather icon-plus"></i>
+                                                </button>
                                         </div>
                                     </div>
                                 </div>
@@ -105,8 +130,8 @@
                                 </div>
                             </div>
 
-                                             {{--Sale Price --}}
-                                             <div class="mt-2 col-sm-6 col-md-6">
+                                {{--Sale Price --}}
+                                <div class="mt-2 col-sm-6 col-md-6">
                                 <label for="selling_price" class="frm_lbl ">Sale Price *</label>
                                 <input type="number" class="form-control" name="selling_price" id="selling_price">
                                 <div class="errors">
@@ -115,6 +140,18 @@
                                 <div id="price_error" style="color: red; display: none;">
                                     Sale Price didn't below Purchase Price  
                                     {{-- Purchase price cannot be greater than sale price. --}}
+                                </div>
+                            </div>
+
+                            {{-- Discount --}}
+                            <div class="mt-2 col-sm-6 col-md-6">
+                                <label for="discount" class="frm_lbl">Discount (%)</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="discount" id="discount" step="0.01" placeholder="Enter discount">
+
+                                </div>
+                                <div class="errors">
+                                    {{ $errors->has('discount') ? $errors->first('discount') : '' }}
                                 </div>
                             </div>
 
@@ -249,8 +286,55 @@
         @csrf
         <x-another-modal title="Add Category" sizeClass="modal-md">
             <x-input label="Category Name *" type="text" name="name" placeholder="Enter Category Name" required />
+            <x-input label="Category Order" type="number" name="order_by" placeholder="Enter Category order" />
+            <x-input label="Category Image" type="file" name="images" />
+            
         </x-another-modal>
     </form>
+
+        {{-- Add Sub Category Modal --}}
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Sub Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('subCategory.store') }}" method="POST">
+    @csrf
+    <div class="modal-content">
+        <!-- modal-header, modal-body -->
+
+        
+        <div class="form-group">
+            <label for="sub_name">Sub Category Name *</label>
+            <input type="text" name="name" id="sub_name" class="form-control" required>
+        </div>
+
+ 
+
+        <div class="form-group">
+            <label for="order_by">Order By</label>
+            <input type="number" name="order_by" id="order_by" class="form-control">
+        </div>
+
+        <!-- modal-footer -->
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</form>
+
+      </div>
+    
+    </div>
+  </div>
+</div>
+
 
     {{-- Add Brand Modal --}}
     <form action="#" id="brandForm" method="POST">
@@ -455,6 +539,49 @@
             });
         });
     </script>
+
+<script>
+$(document).ready(function () {
+    // Submit form via AJAX
+    $('#subCategoryForm').submit(function (e) {
+        e.preventDefault();
+
+        let form = $(this);
+        let actionUrl = form.attr('action');
+        let formData = form.serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: actionUrl,
+            data: formData,
+            success: function (response) {
+                // Add new option to select
+                let newOption = new Option(response.name, response.id, false, false);
+                $('#subCategoryId').append(newOption).trigger('change');
+
+                // Reset and hide modal
+                form[0].reset();
+                $('#addModal12').modal('hide');
+
+                // Optional: show success toast
+                toastr.success('Sub Category added successfully!');
+            },
+            error: function (xhr) {
+                let errors = xhr.responseJSON.errors;
+                if (errors) {
+                    $.each(errors, function (key, value) {
+                        toastr.error(value[0]);
+                    });
+                } else {
+                    toastr.error('Something went wrong.');
+                }
+            }
+        });
+    });
+});
+</script>
+
+
     <script>
         //Brand modal ajax code
         $(document).ready(function () {
@@ -533,4 +660,30 @@
 
         });
     </script>
+    <script>
+    $(document).ready(function () {
+        $('#categoryId').on('change', function () {
+            var categoryId = $(this).val();
+
+            if (categoryId) {
+                $.ajax({
+                    url: '/get-subcategories/' + categoryId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#subCategoryId').empty();
+                        $('#subCategoryId').append('<option value="">Select Sub Category</option>');
+
+                        $.each(data, function (key, value) {
+                            $('#subCategoryId').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#subCategoryId').empty().append('<option value="">Select Sub Category</option>');
+            }
+        });
+    });
+</script>
+
 @endpush

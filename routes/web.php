@@ -134,6 +134,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     // --------------------> Shop banner<--------------------
     Route::resource('shopBanner', ShopBannerController::class)->except(['show', 'edit', 'create']);
 
+Route::get('/get-subcategories/{categoryId}', [SubCategoryController::class, 'getSubcategories'])->name('get.subcategories');
+
+
+
+
+
+
 
     // --------------------> color <--------------------
     Route::resource('color', ColorController::class);

@@ -182,6 +182,18 @@
                                 <div class="errors">
                                     {{ $errors->has('selling_price') ? $errors->first('selling_price') : '' }}</div>
                             </div>
+
+                            {{-- Discount --}}
+                            <div class="mt-2 col-sm-6 col-md-6">
+                                <label for="discount" class="frm_lbl">Discount (%)</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="discount" id="discount" step="0.01" placeholder="Enter discount" value="{{ $data->discount }}">
+
+                                </div>
+                                <div class="errors">
+                                    {{ $errors->has('discount') ? $errors->first('discount') : '' }}
+                                </div>
+                            </div>
                             {{-- status --}}
                             <div class="col-md-6 mt-2" style="margin-right: -6px">
                                 <label for="status" class="form-label fw-bold">Status *</label>
@@ -208,7 +220,7 @@
 
                             <div class="mt-2 col-md-6">
                                 <img id="image"
-                                    src="{{ !empty($data->images) ? asset('public/uploads/products/' . $data->images) : asset('backend/images/no_images.png') }}"
+                                    src="{{ !empty($data->images) ? asset('uploads/products/' . $data->images) : asset('backend/images/no_images.png') }}"
                                     width="120px" style="border-radius: 25px" height="80px" />
                                 <input type="hidden" name="old_image" value="{{ $data->images }}">
                             </div>

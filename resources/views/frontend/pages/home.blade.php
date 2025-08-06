@@ -6,155 +6,68 @@
         <div class="banner_category">
             <div class="container">
                 <div class="row">
-                    <div class="col-6 col-md-3">
-                        <div class="side_category">
-                            <ul class="list_unstyled mt-3">
-                                <li><a class="d-flex" href="#">
-                                        <img src="{{ asset("frontend") }}/images/food.svg.jpg" alt="" style="width: 30px; height: 30px; border-radius: 15%;">
-                                        <span>Food</span>
-                                    </a>
-                                    <ul class="sub_category">
-                                        <li><a href="#">Rice & Grains</a></li>
-                                        <li><a href="#">Snacks</a></li>
-                                        <li><a href="#">Cooking Essentials</a></li>
-                                    </ul>
-                                </li>
-                                <li><a class="d-flex" href="#">
-                                        <img src="{{ asset("frontend") }}/images/baby.svg" alt="" style="width: 30px; height: 30px; border-radius: 15%;">
-                                        <span>Baby Care</span>
-                                    </a>
-                                    <ul class="sub_category">
-                                        <li><a href="#">Diapers</a></li>
-                                        <li><a href="#">Wipes</a></li>
-                                        <li><a href="#">Diaper Rash Cream</a></li>
-                                        <li><a href="#">Changing Mats</a></li>
-                                        <li><a href="#">Baby Bottles</a></li>
-                                        <li><a href="#">Breast Pumps</a></li>
-                                        <li><a href="#">Baby Shampoo & Body Wash</a></li>
-                                        <li><a href="#">Towels & Washcloths</a></li>
-                                    </ul>
-                                </li>
-                                <li><a class="d-flex" href="#">
-                                        <img src="{{ asset("frontend") }}/images/home.svg" alt="" style="width: 30px; height: 30px; border-radius: 15%;">
-                                        <span>Home Cleaning</span>
-                                    </a>
-                                    <ul class="sub_category">
-                                        <li><a href="#">Floor Cleaners</a></li>
-                                        <li><a href="#">Surface Cleaners</a></li>
-                                        <li><a href="#">Bathroom Cleaners</a></li>
-                                        <li><a href="#">Dishwashing Liquids</a></li>
-                                        <li><a href="#">Toilet Cleaners</a></li>
-                                        <li><a href="#">Bathroom Sprays</a></li>
-                                        <li><a href="#">Air Purifiers</a></li>
-                                        <li><a href="#">Window Wipes</a></li>
-                                    </ul>
-                                </li>
-                                <li><a class="d-flex" href="#">
-                                        <img src="{{ asset("frontend") }}/images/pet.avif" alt="" style="width: 30px; height: 30px; border-radius: 15%;">
-                                        <span>Pet Care</span>
-                                    </a></li>
-                                <li><a class="d-flex" href="#">
-                                        <img src="{{ asset("frontend") }}/images/beauty.png" alt="" style="width: 30px; height: 30px; border-radius: 15%;">
-                                        <span>Beauty And Health</span>
-                                    </a></li>
-                                <li><a class="d-flex" href="#">
-                                        <img src="{{ asset("frontend") }}/images/fashion.jpg" alt="" style="width: 30px; height: 30px; border-radius: 15%;">
-                                        <span>Fashion And Lifestyle</span>
-                                    </a></li>
-                                <li><a class="d-flex" href="#">
-                                        <img src="{{ asset("frontend") }}/images/home.svg" alt="" style="width: 30px; height: 30px; border-radius: 15%;">
-                                        <span>Home And Kitchen</span>
-                                    </a></li>
-                                <li><a class="d-flex" href="#">
-                                        <img src="{{ asset("frontend") }}/images/stationery.avif" alt="" style="width: 30px; height: 30px; border-radius: 15%;">
-                                        <span>Stationeries</span>
-                                    </a></li>
-                                <li><a class="d-flex" href="#">
-                                        <img src="{{ asset("frontend") }}/images/toys.jpg" alt="" style="width: 30px; height: 30px; border-radius: 15%;">
-                                        <span>Toys And Sports</span>
-                                    </a>
-                                    <ul class="sub_category">
-                                        <li><a href="#">Playsets</a></li>
-                                        <li><a href="#">Figures</a></li>
-                                        <li><a href="#">Battle Toys</a></li>
-                                        <li><a href="#">STEM Kits</a></li>
-                                        <li><a href="#">Dolls</a></li>
-                                        <li><a href="#">Sound Toys</a></li>
-                                    </ul>
-                                </li>
-                                <li><a class="d-flex" href="#">
-                                        <img src="{{ asset("frontend") }}/images/gadget.jpg" alt="" style="width: 30px; height: 30px; border-radius: 15%;">
-                                        <span>Gadget</span>
-                                    </a></li>
-                            </ul>
-                        </div>
-                    </div>
+<div class="col-6 col-md-3">
+    <div class="side_category">
+        <ul class="list_unstyled mt-3">
+            @php
+    use App\Models\Category;
+        $categories = Category::with('subcategories')->where('status',1)->get();
+    @endphp
+            @foreach($categories as $category)
+                <li>
+                    <a class="d-flex" href="#">
+                        <img src="{{ asset('uploads/category/' . $category->images) }}" 
+                             alt="{{ $category->name }}" 
+                             style="width: 30px; height: 30px; border-radius: 15%;">
+                        <span>{{ $category->name }}</span>
+                    </a>
+                    
+                    @if($category->subcategories->count() > 0)
+                        <ul class="sub_category">
+                            @foreach($category->subcategories as $sub)
+                                <li><a href="#">{{ $sub->name }}</a></li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </li>
+            @endforeach
+        </ul>
+    </div>
+</div>
+
 
                     <div class="col-12 col-md-9">
                         <div class="banner_part">
                             <div class="row">
                                 <div class="col-12">
+                                    @php
+                                      $allbanner = App\Models\Banner::orderBy('id', 'ASC')->get();
+                                    @endphp
                                     <div class="banner_image owl-carousel">
-                                        <div class="item"><img src="{{ asset("frontend") }}/images/banner1.jpg" alt="Banner 1"></div>
-                                        <div class="item"><img src="{{ asset("frontend") }}/images/banner2.jpg" alt="Banner 2"></div>
-                                        <div class="item"><img src="{{ asset("frontend") }}/images/banner1.jpg" alt="Banner 3"></div>
-                                        <div class="item"><img src="{{ asset("frontend") }}/images/banner2.jpg" alt="Banner 4"></div>
+                                        @foreach ($allbanner as $banner)
+                                         <div class="item"><img src="{{ asset('uploads/banner/' . $banner->images) }}" alt="Banner 1"></div>
+                                        @endforeach
+                                       
+                                    
                                     </div>
                                 </div>
 
                             </div>
                             <div class="row mt-3">
+                                 @php
+                                      $allcategory = App\Models\Category::orderBy('id', 'ASC')->get();
+                                    @endphp 
                                 <div class="banner_cart_slider owl-carousel">
-
+                                    @foreach ($allcategory as $category )
                                     <div class="banner_card">
                                         <div class="banner_card_image">
-                                            <img src="{{ asset("frontend") }}/images/egg.webp" alt="">
+                                            <img src="{{ asset('uploads/category/' . $category->images) }}" alt="">
                                         </div>
                                         <div class="card-body mt-2 mb-2" style="margin: 0px 15px;">
-                                            <button class="btn btn-warning w-100">Eggs</button>
+                                            <button class="btn btn-warning w-100">{{ $category->name }}</button>
                                         </div>
                                     </div>
-                                    <div class="banner_card">
-                                        <div class="banner_card_image">
-                                            <img src="{{ asset("frontend") }}/images/tea.jpg" alt="">
-                                        </div>
-                                        <div class="card-body mt-2 mb-2" style="margin: 0px 15px;">
-                                            <button class="btn btn-warning w-100">Tea</button>
-                                        </div>
-                                    </div>
-                                    <div class="banner_card">
-                                        <div class="banner_card_image">
-                                            <img src="{{ asset("frontend") }}/images/softdrink.webp" alt="">
-                                        </div>
-                                        <div class="card-body mt-2 mb-2" style="margin: 0px 15px;">
-                                            <button class="btn btn-warning w-100">Softdrinks</button>
-                                        </div>
-                                    </div>
-                                    <div class="banner_card">
-                                        <div class="banner_card_image">
-                                            <img src="{{ asset("frontend") }}/images/frozen.jpg" alt="">
-                                        </div>
-                                        <div class="card-body mt-2 mb-2" style="margin: 0px 15px;">
-                                            <button class="btn btn-warning w-100">Frozeen</button>
-                                        </div>
-                                    </div>
-                                    <div class="banner_card">
-                                        <div class="banner_card_image">
-                                            <img src="{{ asset("frontend") }}/images/coffie.jpg" alt="">
-                                        </div>
-                                        <div class="card-body mt-2 mb-2" style="margin: 0px 15px;">
-                                            <button class="btn btn-warning w-100">
-                                                Coffee </button>
-                                        </div>
-                                    </div>
-                                    <div class="banner_card">
-                                        <div class="banner_card_image">
-                                            <img src="{{ asset("frontend") }}/images/Ice%20Cream.jpg" alt="">
-                                        </div>
-                                        <div class="card-body mt-2 mb-2" style="margin: 0px 15px;">
-                                            <button class="btn btn-warning w-100">Ice Cream</button>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
 
@@ -167,27 +80,39 @@
 <section>
         <div class="product_part">
             <div class="container mt-5">
+                @php
+                $categories = App\Models\Category::where('status',1)->orderBy('id', 'ASC')->get();
+                @endphp
+
+                @foreach ($categories as $categori)
+                  @php
+                  $all_product=App\Models\Product::where('status',1)->where('category_id',$categori->id)->orderBy('id','asc')->get();
+                  @endphp
+                @if ($all_product->count() > 0)
                 <div class="common_heading text-center">
-                    <h5>Exclusive Deals</h5>
+                    <h5>{{ $categori->name }}</h5>
                 </div>
                 <div class="row">
                     <div class="product_slider owl-carousel">
+                      @foreach ($all_product as $product)
                         <div class="product_card">
                             <div class="product_image">
-                                <img src="{{ asset("frontend") }}/images/product/alu.png" alt="Product">
+                                <img src="{{ asset("uploads/products/" . $product->images) }}" alt="Product">
                                 <div class="product_image_overly">
                                     <i class="fa-solid fa-heart-circle-plus"></i>
                                 </div>
-                                <div class="product_offer">
-                                    <p>save <span>10%</span> </p>
-                                </div>
+                                  @if(!empty($product->discount) && $product->discount > 0)
+                                    <div class="product_offer">
+                                        <p>save <span>{{ $product->discount }}%</span></p>
+                                    </div>
+                                @endif
                             </div>
-                            <div class="product_body">
+                            <div class="product_body mt-1">
                                 <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
+                                    <p>CODE: <span>{{$product->barcode}}</span></p>
                                 </div>
                                 <div class="product_name">
-                                    <p>PRAN Haleem Mix- 200gm</p>
+                                    <p>{{$product->name}}</p>
                                 </div>
                                 <div class="product_stock">
                                     <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
@@ -196,7 +121,7 @@
                             <div class="product_prices  d-flex justify-content-between align-items-center">
                                 <div class="product_price">
                                     <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
+                                    <p class="new_price">৳{{$product->selling_price}}</p>
                                 </div>
                                 <button class="cart_btn">
                                     <i class="bi bi-cart"></i>
@@ -204,324 +129,15 @@
                             </div>
 
                         </div>
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="{{ asset("frontend") }}/images/product/tel.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>Pusti Soybean Oil 5 Litre</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳970.00</p>
-                                    <p class="new_price">৳922.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="{{ asset("frontend") }}/images/product/chini.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                                <div class="product_offer">
-                                    <p>save <span>10%</span> </p>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>Daily Shopping Loose Sugar- 1kg</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="{{ asset("frontend") }}/images/product/chal.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>PRAN Aromatic Chinigura Premium Rice 1Kg</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
-
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="{{ asset("frontend") }}/images/product/solt.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>PRAN Haleem Mix- 200gm</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="{{ asset("frontend") }}/images/product/dim.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                                <div class="product_offer">
-                                    <p>save <span>10%</span> </p>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>PRAN Haleem Mix- 200gm</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
+                        @endforeach
 
 
 
-
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="{{ asset("frontend") }}/images/product/alu.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                                <div class="product_offer">
-                                    <p>save <span>10%</span> </p>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>PRAN Haleem Mix- 200gm</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="{{ asset("frontend") }}/images/product/alu.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                                <div class="product_offer">
-                                    <p>save <span>10%</span> </p>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>PRAN Haleem Mix- 200gm</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="{{ asset("frontend") }}/images/product/alu.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                                <div class="product_offer">
-                                    <p>save <span>10%</span> </p>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>PRAN Haleem Mix- 200gm</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="{{ asset("frontend") }}/images/product/alu.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                                <div class="product_offer">
-                                    <p>save <span>10%</span> </p>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>PRAN Haleem Mix- 200gm</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="{{ asset("frontend") }}/images/product/alu.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                                <div class="product_offer">
-                                    <p>save <span>10%</span> </p>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>PRAN Haleem Mix- 200gm</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
+                   
                     </div>
                 </div>
+                @endif
+                @endforeach
             </div>
         </div>
     </section>

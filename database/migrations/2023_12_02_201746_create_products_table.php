@@ -17,12 +17,14 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('barcode')->nullable()->unique();
             $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade');
+            $table->foreignId('subcategory_id')->nullable()->constrained('sub_categories')->onDelete('cascade');
             $table->foreignId('brand_id')->nullable()->constrained('brands')->onDelete('cascade');
             $table->foreignId('unit_id')->nullable()->constrained('units')->onDelete('cascade');
             $table->decimal('main_qty', 10, 2)->nullable();
             $table->decimal('sub_qty', 10, 2)->nullable();
             $table->decimal('purchase_price', 10, 2)->nullable();
             $table->decimal('selling_price', 10, 2)->nullable();
+            $table->decimal('discount')->nullable();
             $table->string('is_service')->nullable();
             $table->text('description')->nullable();
             $table->tinyInteger('has_serial')->nullable();

@@ -21,6 +21,13 @@ class SubCategoryController extends Controller
         return view('backend.pages.subcategory.index', compact('subcategories','allcategory'));
     }
 
+
+    public function getSubcategories($categoryId)
+{
+    $subcategories = SubCategory::where('category_id', $categoryId)->get();
+
+    return response()->json($subcategories);
+}
  
     public function create()
     {
@@ -42,7 +49,7 @@ class SubCategoryController extends Controller
 
         $subcategory->save();
         notify()->success('Category created successfully');
-        return back();
+        return redirect()->back();
     }
 
     /**

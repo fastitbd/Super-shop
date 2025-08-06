@@ -18,6 +18,7 @@ use App\Models\Variation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Image;
 
 class ProductController extends Controller
 {
@@ -147,6 +148,7 @@ class ProductController extends Controller
         }
         $product->is_service = 0;
         $product->category_id = $request->category_id;
+        $product->subcategory_id = $request->subcategory_id;
         $product->brand_id = $request->brand_id;
         $product->unit_id = $request->unit_id;
         $product->main_qty = $request->main_qty;
@@ -154,6 +156,7 @@ class ProductController extends Controller
         $product->sub_qty = $request->sub_qty;
         $product->purchase_price = $request->purchase_price;
         $product->selling_price = $request->selling_price;
+        $product->discount = $request->discount;
         $product->status = $request->status;
         $product->description = $request->description;
         $product->created_by = Auth::user()->id;
@@ -174,11 +177,18 @@ class ProductController extends Controller
             }
         }
 
-        $image = $request->file('images');
-        if ($image) {
-            $imgName = date('YmdHi') . $image->getClientOriginalName();
-            $image->move('public/uploads/products/', $imgName);
-            $product->images = $imgName;
+           if ($request->hasFile('images')) {
+            $image = $request->file('images');
+            $imageName = "pro_" . time() . '.' . $image->getClientOriginalExtension();
+
+            $uploadPath = public_path('uploads/products');
+
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0777, true);
+            }
+
+            Image::read($image)->resize(150, 180)->save($uploadPath . '/' . $imageName);
+            $product->images = $imageName;
         }
         $product->save();
         // if($request->main_qty != null || $request->main_qty != null && $request->sub_qty != null){
@@ -222,12 +232,14 @@ class ProductController extends Controller
             $product->barcode = $request->barcode;
         }
         $product->category_id = $request->category_id;
+        $product->subcategory_id = $request->subcategory_id;
         $product->brand_id = $request->brand_id;
         $product->unit_id = $request->unit_id;
         $product->main_qty = $request->main_qty;
         $product->sub_qty = $request->sub_qty;
         $product->purchase_price = $request->purchase_price;
         $product->selling_price = $request->selling_price;
+        $product->discount = $request->discount;
         $product->status = $request->status;
         $product->description = $request->description;
 
@@ -272,23 +284,27 @@ class ProductController extends Controller
         }
 
 
-        $image = $request->file('images');
-        if ($image) {
-            $imgName = date('YmdHi') . $image->getClientOriginalName();
-            $image->move('public/uploads/products/', $imgName);
-            if (file_exists('public/uploads/products/' . $product->images) and !empty($product->images)) {
-                unlink('public/uploads/products/' . $product->images);
+        if ($request->hasFile('images')) {
+            $image = $request->file('images');
+            $imageName = "pro_" . time() . '.' . $image->getClientOriginalExtension();
+            $uploadPath = public_path('uploads/products');
+
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0777, true);
             }
-            $product->images = $imgName;
-            $product->save();
-            notify()->success('Product update successfully!');
-            return Redirect()->route('product.index');
-        } else {
-            $product->images = $request->old_image;
-            $product->save();
-            notify()->success('Product update successfully!');
-            return Redirect()->route('product.index');
+
+            if (!empty($product->images) && file_exists($uploadPath . '/' . $product->images)) {
+            unlink($uploadPath . '/' . $product->images);
+            }
+
+
+            Image::read($image)->resize(150, 180)->save($uploadPath . '/' . $imageName);
+            $product->images = $imageName;
         }
+
+        $product->save();
+        notify()->success('Product updated successfully');
+        return Redirect()->route('product.index');
     }
 
     public function destroy(string $id)
