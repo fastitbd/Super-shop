@@ -94,8 +94,8 @@
                 <div class="tab-content p-3 border border-top-0" id="productTabContent">
                     <!-- Description -->
                     <div class="tab-pane fade show active" id="description" role="tabpanel">
-                        <p><strong>Bisk Club Shero Biscuit</strong> - 40gm</p>
-                        <p><strong>Item code:</strong> 5500009258</p>
+                        <p><strong>{{ $product->name }}</p>
+                        <p><strong>Item code:</strong> {{ $product->barcode }}</p>
                         <p><strong>Brand:</strong> Bisk Club</p>
                         <p><strong>Net weight:</strong> 40gm</p>
                         <p><strong>Product type:</strong> Biscuit</p>

@@ -175,15 +175,15 @@
                                 <div class="errors">
                                     {{ $errors->has('purchase_price') ? $errors->first('purchase_price') : '' }}</div>
                             </div>
-                            <div class="mt-2 col-md-6">
-                                <label for="selling_price" class="form-label fw-bold">Sale Price *</label>
-                                <input type="text" class="form-control" name="selling_price"
-                                    value="{{ $data->selling_price }}">
-                                <div class="errors">
-                                    {{ $errors->has('selling_price') ? $errors->first('selling_price') : '' }}</div>
-                            </div>
 
-                            {{-- Discount --}}
+                                          {{--Sale Price --}}
+                                <div class="mt-2 col-sm-6 col-md-6">
+                                <label for="after_discount_price" class="frm_lbl "> after Discount Price *</label>
+                                <input type="number" class="form-control" name="after_discount_price" id="after_discount_price" value="{{ $data->after_discount_price }}">
+                                <div class="errors">
+                                    {{ $errors->has('after_discount_price') ? $errors->first('after_discount_price') : '' }}
+                                </div>
+                            </div>
                             <div class="mt-2 col-sm-6 col-md-6">
                                 <label for="discount" class="frm_lbl">Discount (%)</label>
                                 <div class="input-group">
@@ -194,6 +194,17 @@
                                     {{ $errors->has('discount') ? $errors->first('discount') : '' }}
                                 </div>
                             </div>
+                            <div class="mt-2 col-md-6">
+                                <label for="selling_price" class="form-label fw-bold">Sale Price *</label>
+                               <input type="text" class="form-control" name="selling_price"
+       value="{{ $data->selling_price }}" readonly>
+
+                                <div class="errors">
+                                    {{ $errors->has('selling_price') ? $errors->first('selling_price') : '' }}</div>
+                            </div>
+
+                            {{-- Discount --}}
+
                             {{-- status --}}
                             <div class="col-md-6 mt-2" style="margin-right: -6px">
                                 <label for="status" class="form-label fw-bold">Status *</label>
@@ -305,5 +316,36 @@
 
         });
     </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const discountInput = document.getElementById('discount');
+        const afterDiscountPriceInput = document.getElementById('after_discount_price');
+        const sellingPriceInput = document.querySelector('input[name="selling_price"]');
+
+        function calculateSellingPrice() {
+            const afterDiscount = parseFloat(afterDiscountPriceInput.value) || 0;
+            const discount = parseFloat(discountInput.value) || 0;
+
+            let sellingPrice = 0;
+
+            if (discount > 0) {
+                const discountAmount = afterDiscount * (discount / 100);
+                sellingPrice = afterDiscount - discountAmount;
+            } else {
+                sellingPrice = afterDiscount;
+            }
+
+            sellingPriceInput.value = sellingPrice.toFixed(2);
+        }
+
+        // Calculate on input change
+        discountInput.addEventListener('input', calculateSellingPrice);
+        afterDiscountPriceInput.addEventListener('input', calculateSellingPrice);
+
+        // 🔁 Recalculate once on page load (for edit form)
+        calculateSellingPrice();
+    });
+</script>
+
 
 @endsection

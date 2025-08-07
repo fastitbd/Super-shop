@@ -246,6 +246,7 @@ class ProductController extends Controller
         $product->sub_qty = $request->sub_qty;
         $product->purchase_price = $request->purchase_price;
         $product->selling_price = $request->selling_price;
+        $product->selling_price = $request->selling_price;
         $product->discount = $request->discount;
         $product->status = $request->status;
         $product->description = $request->description;

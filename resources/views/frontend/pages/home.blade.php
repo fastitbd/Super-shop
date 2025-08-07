@@ -121,15 +121,23 @@
                                                 <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
                                             </div>
                                         </div>
-                                        <div class="product_prices  d-flex justify-content-between align-items-center">
-                                            <div class="product_price">
-                                                <p class="old_price">৳70.00</p>
-                                                <p class="new_price">৳{{$product->selling_price}}</p>
-                                            </div>
+                                <div class="product_prices d-flex justify-content-between align-items-center">
+                                            @if (!empty($product->discount) && $product->discount > 0)
+                                                <div class="product_price">
+                                                    <p class="old_price">৳{{ $product->after_discount_price }}</p> {{-- What customer pays --}}
+                                                    <p class="new_price">৳{{ $product->selling_price }}</p> {{-- Original price --}}
+                                                </div>
+                                            @else
+                                                <div class="product_price">
+                                                    <p class="new_price">৳{{ $product->selling_price }}</p>
+                                                </div>
+                                            @endif
+
                                             <button class="cart_btn">
                                                 <i class="bi bi-cart"></i>
                                             </button>
                                         </div>
+
 
                                     </div>
                                 @endforeach
