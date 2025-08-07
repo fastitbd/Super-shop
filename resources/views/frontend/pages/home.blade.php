@@ -15,7 +15,7 @@
                                 @endphp
                                 @foreach($categories as $category)
                                     <li>
-                                        <a class="d-flex" href="#">
+                                        <a class="d-flex" href="{{url('category/' . $category->url)}}">
                                             <img src="{{ asset('uploads/category/' . $category->images) }}"
                                                 alt="{{ $category->name }}"
                                                 style="width: 30px; height: 30px; border-radius: 15%;">
@@ -25,7 +25,7 @@
                                         @if($category->subcategories->count() > 0)
                                             <ul class="sub_category">
                                                 @foreach($category->subcategories as $sub)
-                                                    <li><a href="#">{{ $sub->name }}</a></li>
+                                                    <li><a href="{{url('subcategory/' . $sub->url)}}">{{ $sub->name }}</a></li>
                                                 @endforeach
                                             </ul>
                                         @endif

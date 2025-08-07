@@ -123,7 +123,7 @@
                             </div>
                                {{-- Purchase Price --}}
                                <div class="mt-2 col-sm-6 col-md-6">
-                                <label for="purchase_price" class="frm_lbl ">Purchase Price *</label>
+                                <label for="purchase_price" class="frm_lbl ">Purchase Price</label>
                                 <input type="number" class="form-control" name="purchase_price" id="purchase_price">
                                 <div class="errors">
                                     {{ $errors->has('purchase_price') ? $errors->first('purchase_price') : '' }}
@@ -132,14 +132,10 @@
 
                                 {{--Sale Price --}}
                                 <div class="mt-2 col-sm-6 col-md-6">
-                                <label for="selling_price" class="frm_lbl ">Sale Price *</label>
-                                <input type="number" class="form-control" name="selling_price" id="selling_price">
+                                <label for="after_discount_price" class="frm_lbl "> after Discount Price *</label>
+                                <input type="number" class="form-control" name="after_discount_price" id="after_discount_price">
                                 <div class="errors">
-                                    {{ $errors->has('selling_price') ? $errors->first('selling_price') : '' }}
-                                </div>
-                                <div id="price_error" style="color: red; display: none;">
-                                    Sale Price didn't below Purchase Price  
-                                    {{-- Purchase price cannot be greater than sale price. --}}
+                                    {{ $errors->has('after_discount_price') ? $errors->first('after_discount_price') : '' }}
                                 </div>
                             </div>
 
@@ -153,6 +149,15 @@
                                 <div class="errors">
                                     {{ $errors->has('discount') ? $errors->first('discount') : '' }}
                                 </div>
+                            </div>
+                              {{--Sale Price --}}
+                                <div class="mt-2 col-sm-6 col-md-6">
+                                <label for="selling_price" class="frm_lbl ">Sale Price *</label>
+                                <input type="number" class="form-control" name="selling_price" id="selling_price">
+                                <div class="errors">
+                                    {{ $errors->has('selling_price') ? $errors->first('selling_price') : '' }}
+                                </div>
+                               
                             </div>
 
                             {{-- Product barcode  --}}
@@ -272,7 +277,7 @@
                             </div>
 
                             <div class="mt-3 text-center col-12">
-                                <button id="submitBtn" class=" save-btn" type="submit" disabled> Save </button>
+                                <button  class=" save-btn" type="submit" > Save </button>
                             </div>
 
                         </form>
@@ -492,7 +497,7 @@
 
 {{-- </script> --}}
 
-<script>
+{{-- <script>
     $(document).ready(function () {
         // Attach change event listeners for both price fields
         $('#purchase_price, #selling_price').on('change', function () {
@@ -509,7 +514,7 @@
             }
         });
     });
-</script>
+</script> --}}
     <script>
         //category modal ajax code
         $(document).ready(function () {
@@ -685,5 +690,34 @@ $(document).ready(function () {
         });
     });
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const discountInput = document.getElementById('discount');
+        const afterDiscountPriceInput = document.getElementById('after_discount_price');
+        const sellingPriceInput = document.getElementById('selling_price');
+
+        function calculateSellingPrice() {
+            const afterDiscount = parseFloat(afterDiscountPriceInput.value) || 0;
+            const discount = parseFloat(discountInput.value) || 0;
+
+            let sellingPrice = 0;
+
+            if (discount > 0) {
+                const discountAmount = afterDiscount * (discount / 100);
+                sellingPrice = afterDiscount - discountAmount;
+            } else {
+                sellingPrice = afterDiscount;
+            }
+
+            sellingPriceInput.value = sellingPrice.toFixed(0); // Show 2 decimal places
+        }
+
+        discountInput.addEventListener('input', calculateSellingPrice);
+        afterDiscountPriceInput.addEventListener('input', calculateSellingPrice);
+    });
+</script>
+
+
 
 @endpush

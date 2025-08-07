@@ -23,8 +23,9 @@ return new class extends Migration
             $table->decimal('main_qty', 10, 2)->nullable();
             $table->decimal('sub_qty', 10, 2)->nullable();
             $table->decimal('purchase_price', 10, 2)->nullable();
-            $table->decimal('selling_price', 10, 2)->nullable();
+            $table->decimal('after_discount_price', 10, 2)->nullable();
             $table->decimal('discount')->nullable();
+             $table->decimal('selling_price', 10, 2)->nullable();
             $table->string('is_service')->nullable();
             $table->text('description')->nullable();
             $table->string('slug')->nullable();
