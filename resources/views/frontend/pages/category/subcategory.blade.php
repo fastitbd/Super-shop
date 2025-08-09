@@ -1,7 +1,7 @@
 @extends('frontend.layouts.website')
 @section('content')
 
-  <section>
+    <section>
         <div class="breadcrumb_part">
             <div class="container">
                 <div class="row">
@@ -142,45 +142,49 @@
                     <div class="category_product">
                         <div class="row">
                             @foreach ($all as $product)
-                            
-                           
-                            <div class="col-6 col-md-4 col-lg-3 mt-3">
-                                <div class="product_card">
-                                    <div class="product_image">
-                                           <a href="{{ url('/product/details/' . $product->slug) }}">
-                                            <img src="{{ asset("uploads/products/" . $product->images) }}" alt="Product">
-                                            <div class="product_image_overly">
-                                                <i class="fa-solid fa-heart-circle-plus"></i>
-                                            </div>
-                                            @if(!empty($product->discount) && $product->discount > 0)
-                                                <div class="product_offer">
-                                                    <p>save <span>{{ $product->discount }}%</span></p>
+
+
+                                <div class="col-6 col-md-4 col-lg-3 mt-3">
+                                    <div class="product_card">
+                                        <div class="product_image">
+                                            <a href="{{ url('/product/details/' . $product->slug) }}">
+                                                <img src="{{ asset("uploads/products/" . $product->images) }}" alt="Product">
+                                                <div class="product_image_overly">
+                                                    <i class="fa-solid fa-heart-circle-plus"></i>
                                                 </div>
-                                            @endif
+                                                @if(!empty($product->discount) && $product->discount > 0)
+                                                    <div class="product_offer">
+                                                        <p>save <span>{{ $product->discount }}%</span></p>
+                                                    </div>
+                                                @endif
                                             </a>
                                         </div>
-                                    <div class="product_body">
-                                        <div class="product_code">
-                                            <p>CODE: <span>{{$product->barcode}}</span></p>
+                                        <div class="product_body">
+                                            <div class="product_code">
+                                                <p>CODE: <span>{{$product->barcode}}</span></p>
+                                            </div>
+                                            <div class="product_name">
+                                                <a href="{{ url('/product/details/' . $product->slug) }}">
+                                                    <p>{{$product->name}}</p>
+                                                </a>
+
+                                            </div>
+                                            <div class="product_stock">
+                                                <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div class="product_name">
-                                            <p>{{$product->name}}</p>
+                                        <div class="product_prices  d-flex justify-content-between align-items-center">
+                                            <div class="product_price">
+                                                <p class="old_price">৳70.00</p>
+                                                <p class="new_price">৳{{$product->selling_price}}</p>
+                                            </div>
+                                            <button class="cart_btn">
+                                                <i class="bi bi-cart"></i>
+                                            </button>
                                         </div>
-                                        <div class="product_stock">
-                                            <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                        </div>
-                                    </div>
-                                    <div class="product_prices  d-flex justify-content-between align-items-center">
-                                        <div class="product_price">
-                                            <p class="old_price">৳70.00</p>
-                                            <p class="new_price">৳{{$product->selling_price}}</p>
-                                        </div>
-                                        <button class="cart_btn">
-                                            <i class="bi bi-cart"></i>
-                                        </button>
                                     </div>
                                 </div>
-                            </div>
                             @endforeach
                         </div>
                     </div>

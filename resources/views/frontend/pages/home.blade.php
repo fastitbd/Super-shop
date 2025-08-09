@@ -98,33 +98,37 @@
                                 @foreach ($all_product as $product)
                                     <div class="product_card">
                                         <div class="product_image">
-                                           <a href="{{ url('/product/details/' . $product->slug) }}">
-                                            <img src="{{ asset("uploads/products/" . $product->images) }}" alt="Product">
-                                            <div class="product_image_overly">
-                                                <i class="fa-solid fa-heart-circle-plus"></i>
-                                            </div>
-                                            @if(!empty($product->discount) && $product->discount > 0)
-                                                <div class="product_offer">
-                                                    <p>save <span>{{ $product->discount }}%</span></p>
+                                            <a href="{{ url('/product/details/' . $product->slug) }}">
+                                                <img src="{{ asset("uploads/products/" . $product->images) }}" alt="Product">
+                                                <div class="product_image_overly">
+                                                    <i class="fa-solid fa-heart-circle-plus"></i>
                                                 </div>
-                                            @endif
+                                                @if(!empty($product->discount) && $product->discount > 0)
+                                                    <div class="product_offer">
+                                                        <p>save <span>{{ $product->discount }}%</span></p>
+                                                    </div>
+                                                @endif
                                             </a>
                                         </div>
-                                        <div class="product_body mt-1">
+                                        <div class="product_body">
                                             <div class="product_code">
                                                 <p>CODE: <span>{{$product->barcode}}</span></p>
                                             </div>
                                             <div class="product_name">
-                                                <p>{{$product->name}}</p>
+                                                <a href="{{ url('/product/details/' . $product->slug) }}">
+                                                    <p>{{$product->name}}</p>
+                                                </a>
+
                                             </div>
                                             <div class="product_stock">
                                                 <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
                                             </div>
                                         </div>
-                                <div class="product_prices d-flex justify-content-between align-items-center">
+                                        <div class="product_prices d-flex justify-content-between align-items-center">
                                             @if (!empty($product->discount) && $product->discount > 0)
                                                 <div class="product_price">
-                                                    <p class="old_price">৳{{ $product->after_discount_price }}</p> {{-- What customer pays --}}
+                                                    <p class="old_price">৳{{ $product->after_discount_price }}</p> {{-- What customer pays
+                                                    --}}
                                                     <p class="new_price">৳{{ $product->selling_price }}</p> {{-- Original price --}}
                                                 </div>
                                             @else
@@ -1233,28 +1237,28 @@
         </div>
     </section>
 
-<section>
-    <div class="middle_banner">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md-5">
-                    @foreach($shopbanners->where('position','left') as $banner)
-                        <div class="middle_banner_one">
-                            <img src="{{ asset('uploads/shopbanner/' . $banner->images) }}" alt="">
-                        </div>
-                    @endforeach
-                </div>
-                <div class="col-12 col-md-7">
-                    @foreach($shopbanners->where('position','right') as $banner)
-                        <div class="middle_banner_two">
-                            <img src="{{ asset('uploads/shopbanner/' . $banner->images) }}" alt="">
-                        </div>
-                    @endforeach
+    <section>
+        <div class="middle_banner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-5">
+                        @foreach($shopbanners->where('position', 'left') as $banner)
+                            <div class="middle_banner_one">
+                                <img src="{{ asset('uploads/shopbanner/' . $banner->images) }}" alt="">
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="col-12 col-md-7">
+                        @foreach($shopbanners->where('position', 'right') as $banner)
+                            <div class="middle_banner_two">
+                                <img src="{{ asset('uploads/shopbanner/' . $banner->images) }}" alt="">
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <section>
         <div class="product_part">

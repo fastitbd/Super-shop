@@ -12,7 +12,7 @@
 
 
                     <div class="col-md-6 col-12 mb-3 text-center">
-                        <img src="{{ asset("uploads/products/" . $product->images) }}" class="img-fluid" alt="Shero Biscuit">
+                        <img style="width:40%;" src="{{ asset("uploads/products/" . $product->images) }}" class="img-fluid mt-3" alt="Shero Biscuit">
                     </div>
 
                     <!-- Right: Product Details -->
@@ -35,7 +35,11 @@
                                     <small>CODE: <strong>{{ $product->barcode }}</strong></small>
                                 </div>
                             </div>
-                            <h4 class="details_price">৳{{ $product->selling_price }} <span>Per Piece</span></h4>
+                            <h4 style="font-size:17px; font-weight: 600;">{{ $product->name }}</h4>
+                            <h5 style="font-size:15px; font-weight: 500;">{{ $product->category->name }}</h5>
+                            <h4 class="details_price">৳{{ $product->selling_price }} <span>{{ $product->unit->name }}</span></h4>
+
+                            
                             <p class="text-success"><i class="bi bi-check-circle"></i> In stock</p>
 
                             <!-- Quantity and Cart -->
@@ -132,350 +136,55 @@
                 </div>
                 <div class="row">
                     <div class="product_slider owl-carousel">
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="images/product/alu.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                                <div class="product_offer">
-                                    <p>save <span>10%</span> </p>
-                                </div>
-                            </div>
+                        @foreach ($featureproduct as $product)
+                            <div class="product_card">
+                                  <div class="product_image">
+                                           <a href="{{ url('/product/details/' . $product->slug) }}">
+                                            <img src="{{ asset("uploads/products/" . $product->images) }}" alt="Product">
+                                            <div class="product_image_overly">
+                                                <i class="fa-solid fa-heart-circle-plus"></i>
+                                            </div>
+                                            @if(!empty($product->discount) && $product->discount > 0)
+                                                <div class="product_offer">
+                                                    <p>save <span>{{ $product->discount }}%</span></p>
+                                                </div>
+                                            @endif
+                                            </a>
+                                        </div>
                             <div class="product_body">
                                 <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
+                                    <p>CODE: <span>{{$product->barcode}}</span></p>
                                 </div>
                                 <div class="product_name">
-                                    <p>PRAN Haleem Mix- 200gm</p>
+                                    <a href="{{ url('/product/details/' . $product->slug) }}">
+                                        <p>{{$product->name}}</p>
+                                    </a>
+                                    
                                 </div>
                                 <div class="product_stock">
                                     <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
                                 </div>
                             </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
+                             <div class="product_prices d-flex justify-content-between align-items-center">
+                                            @if (!empty($product->discount) && $product->discount > 0)
+                                                <div class="product_price">
+                                                    <p class="old_price">৳{{ $product->after_discount_price }}</p> {{-- What customer pays --}}
+                                                    <p class="new_price">৳{{ $product->selling_price }}</p> {{-- Original price --}}
+                                                </div>
+                                            @else
+                                                <div class="product_price">
+                                                    <p class="new_price">৳{{ $product->selling_price }}</p>
+                                                </div>
+                                            @endif
+
+                                            <button class="cart_btn">
+                                                <i class="bi bi-cart"></i>
+                                            </button>
+                                        </div>
 
                         </div>
-                        
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="images/product/tel.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>Pusti Soybean Oil 5 Litre</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳970.00</p>
-                                    <p class="new_price">৳922.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="images/product/chini.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                                <div class="product_offer">
-                                    <p>save <span>10%</span> </p>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>Daily Shopping Loose Sugar- 1kg</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="images/product/chal.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>PRAN Aromatic Chinigura Premium Rice 1Kg</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
-
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="images/product/solt.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>PRAN Haleem Mix- 200gm</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="images/product/dim.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                                <div class="product_offer">
-                                    <p>save <span>10%</span> </p>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>PRAN Haleem Mix- 200gm</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="images/product/alu.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                                <div class="product_offer">
-                                    <p>save <span>10%</span> </p>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>PRAN Haleem Mix- 200gm</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="images/product/alu.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                                <div class="product_offer">
-                                    <p>save <span>10%</span> </p>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>PRAN Haleem Mix- 200gm</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="images/product/alu.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                                <div class="product_offer">
-                                    <p>save <span>10%</span> </p>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>PRAN Haleem Mix- 200gm</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="images/product/alu.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                                <div class="product_offer">
-                                    <p>save <span>10%</span> </p>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>PRAN Haleem Mix- 200gm</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
-                        <div class="product_card">
-                            <div class="product_image">
-                                <img src="images/product/alu.png" alt="Product">
-                                <div class="product_image_overly">
-                                    <i class="fa-solid fa-heart-circle-plus"></i>
-                                </div>
-                                <div class="product_offer">
-                                    <p>save <span>10%</span> </p>
-                                </div>
-                            </div>
-                            <div class="product_body">
-                                <div class="product_code">
-                                    <p>CODE: <span>5000000023</span></p>
-                                </div>
-                                <div class="product_name">
-                                    <p>PRAN Haleem Mix- 200gm</p>
-                                </div>
-                                <div class="product_stock">
-                                    <p class="text-success small mb-2"><i class="bi bi-check-circle"></i> In stock</p>
-                                </div>
-                            </div>
-                            <div class="product_prices  d-flex justify-content-between align-items-center">
-                                <div class="product_price">
-                                    <p class="old_price">৳70.00</p>
-                                    <p class="new_price">৳60.00</p>
-                                </div>
-                                <button class="cart_btn">
-                                    <i class="bi bi-cart"></i>
-                                </button>
-                            </div>
-
-                        </div>
+                        @endforeach
+  
                     </div>
                 </div>
             </div>
