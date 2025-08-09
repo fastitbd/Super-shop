@@ -6,38 +6,45 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\SubCategory;
-use App\Models\Product; 
+use App\Models\Product;
 
 class FrontendCategoryController extends Controller
 {
-   
- public function category($url)
- { 
-    $cate= Category::where('status',1)->where('url',$url)->firstOrFail();
 
-    $all = Product::with('subcategory')->where('category_id',$cate->id)->orderBy('id','asc')->latest()->get();
+    public function category($url)
+    {
+        $cate = Category::where('status', 1)->where('url', $url)->firstOrFail();
 
-     $subcategories = $cate->subcategories; 
+        $all = Product::with('subcategory')->where('category_id', $cate->id)->orderBy('id', 'asc')->latest()->get();
 
-    $subcategoryId = null;
+        $subcategories = $cate->subcategories;
 
-    return view('frontend.pages.category.category', compact('cate', 'subcategories', 'all', 'subcategoryId'));
- }
+        $subcategoryId = null;
 
- public function subcategory($url)
- { 
-   
+        return view('frontend.pages.category.category', compact('cate', 'subcategories', 'all', 'subcategoryId'));
+    }
 
-     $subcate = SubCategory::with('category')->where('status', 1)->where('url', $url)->firstOrFail();
-
-    $all = Product::where('subcategory_id', $subcate->id)
-                  ->orderBy('id', 'desc')
-                  ->get();
+    public function subcategory($url)
+    {
 
 
-     $cate = $subcate->category;
+        $subcate = SubCategory::with('category')->where('status', 1)->where('url', $url)->firstOrFail();
 
-    return view('frontend.pages.category.subcategory', compact('subcate','all','cate'));
- }
+        $all = Product::where('subcategory_id', $subcate->id)
+            ->orderBy('id', 'desc')
+            ->get();
+
+
+        $cate = $subcate->category;
+
+        return view('frontend.pages.category.subcategory', compact('subcate', 'all', 'cate'));
+    }
+
+    public function showCategoriesWithProducts()
+    {
+        
+
+        return view('frontend.pages.home', compact('firstCategories', 'remainingCategories'));
+    }
 
 }

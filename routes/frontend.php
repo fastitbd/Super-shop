@@ -20,6 +20,7 @@ Route::get('/product/details/{slug}', [ProductDetailsController::class, 'details
 Route::get('category/{url}', [FrontendCategoryController::class, 'category'])->name('category.page');
 
 Route::get('subcategory/{url}', [FrontendCategoryController::class, 'subcategory'])->name('subcategory.page');
+Route::get('subcategory/productlist', [FrontendCategoryController::class, 'showCategoriesWithProducts'])->name('subcategory.productlist');
 
 
 
