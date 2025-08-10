@@ -100,7 +100,7 @@
                                                 </div>
                                                 @if(!empty($product->discount) && $product->discount > 0)
                                                     <div class="product_offer">
-                                                        <p>save <span>{{ $product->discount }}%</span></p>
+                                                        <p>save <span>{{ number_format($product->discount, 0) }}%</span></p>
                                                     </div>
                                                 @endif
                                             </a>
@@ -189,7 +189,7 @@
                                                 </div>
                                                 @if(!empty($product->discount) && $product->discount > 0)
                                                     <div class="product_offer">
-                                                        <p>save <span>{{ $product->discount }}%</span></p>
+                                                        <p>save <span>{{ number_format($product->discount, 0) }}%</span></p>
                                                     </div>
                                                 @endif
                                             </a>
