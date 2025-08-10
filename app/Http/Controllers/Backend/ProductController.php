@@ -291,7 +291,7 @@ class ProductController extends Controller
                         'color_id' => $combo['color_id'],
                     ]);
                 }
-            }
+            } 
         }
 
 
