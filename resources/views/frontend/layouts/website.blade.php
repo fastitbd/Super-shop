@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="logu_lg">
-                            <a class="" href="#">
+                            <a class="" href="{{ route('home') }}">
                                 <img src="{{ asset("frontend") }}/images/logu.png" alt="" style="width: 100%; height: 100%;">
                             </a>
                         </div>
@@ -64,7 +64,10 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="logo" style="width: 150px; height: 50px;">
-                            <img src="{{ asset("frontend") }}/images/logu.png" alt="" style="width: 100%; height: 100%;">
+                            <a href="{{ route('home') }}">
+                                <img src="{{ asset("frontend") }}/images/logu.png" alt="" style="width: 100%; height: 100%;">
+                            </a>
+                           
                         </div>
                     </div>
                     <div class="col-8">
