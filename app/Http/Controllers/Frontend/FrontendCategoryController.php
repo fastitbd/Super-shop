@@ -40,11 +40,6 @@ class FrontendCategoryController extends Controller
         return view('frontend.pages.category.subcategory', compact('subcate', 'all', 'cate'));
     }
 
-    public function showCategoriesWithProducts()
-    {
-        
 
-        return view('frontend.pages.home', compact('firstCategories', 'remainingCategories'));
-    }
 
 }

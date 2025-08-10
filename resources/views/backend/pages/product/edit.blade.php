@@ -64,6 +64,14 @@
                                 </select>
                             </div>
 
+                            {{-- Product weight --}}
+                            <div class="mt-2 col-md-6">
+                                <label for="name" class="frm_lbl">Net Weight</label>
+                                <input type="text" onfocus="this.select()" autofocus class="form-control" name="weight"
+                                    placeholder="Enter Weight" value="{{ $data->weight }}">
+                                <div class="errors">{{ $errors->has('weight') ? $errors->first('weight') : '' }}</div>
+                            </div>
+
                             @if ($data->unit->related_unit_id == null)
                                 {{-- Unit --}}
                                 <div class="mt-2 col-md-3">
@@ -196,8 +204,7 @@
                             </div>
                             <div class="mt-2 col-md-6">
                                 <label for="selling_price" class="form-label fw-bold">Sale Price *</label>
-                               <input type="text" class="form-control" name="selling_price"
-       value="{{ $data->selling_price }}" readonly>
+                               <input type="text" class="form-control" name="selling_price" value="{{ $data->selling_price }}" readonly>
 
                                 <div class="errors">
                                     {{ $errors->has('selling_price') ? $errors->first('selling_price') : '' }}</div>

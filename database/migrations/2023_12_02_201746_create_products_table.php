@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('subcategory_id')->nullable();
             $table->foreignId('brand_id')->nullable()->constrained('brands')->onDelete('cascade');
             $table->foreignId('unit_id')->nullable()->constrained('units')->onDelete('cascade');
+            $table->string('weight')->nullable();
             $table->decimal('main_qty', 10, 2)->nullable();
             $table->decimal('sub_qty', 10, 2)->nullable();
             $table->decimal('purchase_price', 10, 2)->nullable();

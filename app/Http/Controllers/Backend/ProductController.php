@@ -153,6 +153,7 @@ class ProductController extends Controller
         $product->category_id = $request->category_id;
         $product->subcategory_id = $request->subcategory_id;
         $product->brand_id = $request->brand_id;
+        $product->weight = $request->weight;
         $product->unit_id = $request->unit_id;
         $product->main_qty = $request->main_qty;
         $product->has_serial = $request->has_serial;
@@ -241,6 +242,7 @@ class ProductController extends Controller
         $product->category_id = $request->category_id;
         $product->subcategory_id = $request->subcategory_id;
         $product->brand_id = $request->brand_id;
+        $product->weight = $request->weight;
         $product->unit_id = $request->unit_id;
         $product->main_qty = $request->main_qty;
         $product->sub_qty = $request->sub_qty;

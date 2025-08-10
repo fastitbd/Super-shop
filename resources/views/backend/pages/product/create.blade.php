@@ -104,6 +104,15 @@
                                     </div>
                                 </div>
                             </div>
+
+                            {{-- Product weight --}}
+                            <div class="mt-2 col-md-6">
+                                <label for="name" class="frm_lbl">Net Weight</label>
+                                <input type="text" onfocus="this.select()" autofocus class="form-control" name="weight"
+                                    placeholder="Enter Weight">
+                                <div class="errors">{{ $errors->has('weight') ? $errors->first('weight') : '' }}</div>
+                            </div>
+
                                 {{-- Unit --}}
                                 <div class="mt-2 col-sm-6 col-md-3 ">
                                 <label for="unit_id" class="frm_lbl">Main Unit</label>

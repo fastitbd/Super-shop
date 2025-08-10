@@ -104,38 +104,23 @@
                                 TAG
                                 <span class="text-muted">–</span>
                             </h6>
-                            <div class="form-check mb-1">
-                                <input class="form-check-input" type="checkbox" id="tag1">
-                                <label class="form-check-label d-flex justify-content-between w-100" for="tag1">
-                                    <span>Baby Bath Essentials</span><span class="text-muted">(29)</span>
-                                </label>
-                            </div>
-                            <div class="form-check mb-1">
-                                <input class="form-check-input" type="checkbox" id="tag2">
-                                <label class="form-check-label d-flex justify-content-between w-100" for="tag2">
-                                    <span>Infant Bath Products</span><span class="text-muted">(29)</span>
-                                </label>
-                            </div>
-                            <div class="form-check mb-1">
-                                <input class="form-check-input" type="checkbox" id="tag3">
-                                <label class="form-check-label d-flex justify-content-between w-100" for="tag3">
-                                    <span>Baby Hygiene</span><span class="text-muted">(29)</span>
-                                </label>
-                            </div>
-                            <div class="form-check mb-1">
-                                <input class="form-check-input" type="checkbox" id="tag4">
-                                <label class="form-check-label d-flex justify-content-between w-100" for="tag4">
-                                    <span>Baby Skin Care</span><span class="text-muted">(29)</span>
-                                </label>
-                            </div>
-                            <div class="form-check mb-1">
-                                <input class="form-check-input" type="checkbox" id="tag5">
-                                <label class="form-check-label d-flex justify-content-between w-100" for="tag5">
-                                    <span>Baby Bath & Skincare</span><span class="text-muted">(29)</span>
-                                </label>
-                            </div>
+
+                            @forelse($subcategories as $sub)
+                                <div class="form-check mb-1">
+                                    <input class="form-check-input" type="checkbox" id="tag{{ $sub->id }}">
+                                    <label class="form-check-label d-flex justify-content-between w-100"
+                                        for="tag{{ $sub->id }}">
+                                        <span>{{ $sub->name }}</span>
+                                        <span class="text-muted">({{ $sub->products_count ?? 0 }})</span>
+                                    </label>
+                                </div>
+                            @empty
+                                <p class="text-muted">No subcategories found</p>
+                            @endforelse
+
                             <a href="#" class="text-danger small mt-2 d-inline-block">+ See More</a>
                         </div>
+
                     </div>
 
                 </div>

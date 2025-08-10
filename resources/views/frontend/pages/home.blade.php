@@ -65,7 +65,10 @@
                                                 <img src="{{ asset('uploads/category/' . $category->images) }}" alt="">
                                             </div>
                                             <div class="card-body mt-2 mb-2" style="margin: 0px 15px;">
-                                                <button class="btn btn-warning w-100">{{ $category->name }}</button>
+                                                <a href="{{url('category/' . $category->url)}}">
+<button class="btn btn-warning w-100">{{ $category->name }}</button>
+                                                </a>
+                                                
                                             </div>
                                         </div>
                                     @endforeach

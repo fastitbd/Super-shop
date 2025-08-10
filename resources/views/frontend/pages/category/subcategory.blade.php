@@ -88,7 +88,7 @@
                         </div>
 
                         <!-- Tags -->
-                        <div class="card mb-3 p-3">
+                       {{-- <div class="card mb-3 p-3">
                             <h6 class="mb-3 d-flex justify-content-between align-items-center">
                                 TAG
                                 <span class="text-muted">–</span>
@@ -124,7 +124,7 @@
                                 </label>
                             </div>
                             <a href="#" class="text-danger small mt-2 d-inline-block">+ See More</a>
-                        </div>
+                        </div> --}}
                     </div>
 
                 </div>
