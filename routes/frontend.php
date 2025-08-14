@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\ProductDetailsController;
 use App\Http\Controllers\Frontend\FrontendCategoryController;
+use App\Http\Controllers\Frontend\CartController;
 
 
 
@@ -22,6 +23,8 @@ Route::get('category/{url}', [FrontendCategoryController::class, 'category'])->n
 Route::get('subcategory/{url}', [FrontendCategoryController::class, 'subcategory'])->name('subcategory.page');
 Route::get('subcategory/productlist', [FrontendCategoryController::class, 'showCategoriesWithProducts'])->name('subcategory.productlist');
 
+
+Route::get('/cart',[CartController::class, 'index'])->name('cart.index');
 
 
 

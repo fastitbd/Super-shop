@@ -887,8 +887,7 @@ footer {
     font-size: 16px;
     font-weight: 500;
     font-family: "Roboto", sans-serif;
-    margin-top: 45px;
-    margin-left: 20px;
+    margin: 0 0 4px 20px; /* no big top margin */
     color: #219DD7;
 }
 
@@ -896,7 +895,7 @@ footer {
     font-size: 13px;
     font-weight: 400;
     font-family: "Open Sans", sans-serif;
-    margin-left: 20px;
+    margin: 0 0 0 20px;
     color: #818181;
 }
 
@@ -908,9 +907,33 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 50px;
-    margin-left: 25px;
     border: 1px solid #808080;
+    margin-left: 15px;
+}
+
+.cart_product_cancel i {
+    font-size: 18px;
+    color: #000;
+}
+
+.cart_product_cancel:hover {
+    background: #7ff1fa;
+}
+.cart_product {
+    display: flex;
+    align-items: center; /* centers items vertically */
+}
+
+.cart_product_cancel {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background: #f1f1f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #808080;
+    margin-left: 15px; /* only small spacing from product name */
 }
 
 .cart_product_cancel i {
@@ -952,18 +975,17 @@ footer {
     .cart_product_cancel {
     height: 25px;
     width: 25px;
-    border-radius: 50%;
+     border-radius: 50%;
     background: #f1f1f1;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 20px;
-    margin-left: 5px;
     border: 1px solid #808080;
+    margin-left: 15px;
 }
 
 .cart_product_cancel i {
-    font-size: 13px;
+    font-size: 10px;
     color: #000;
 }
     .input_group{
