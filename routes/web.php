@@ -38,6 +38,7 @@ use App\Http\Controllers\Backend\UsedProductPurchaseController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\BannerController;
 use App\Http\Controllers\Backend\ShopBannerController;
+use App\Http\Controllers\Backend\BackendOrderController;
 
 use App\Http\Controllers\Frontend\FrontendController;
 
@@ -78,7 +79,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
     // --------------------- POS ---------------------
     Route::controller(InvoiceController::class)->group(function () {
-        Route::post('/invoice/log/store',  'storeInvoiceLog')->name('storeInvoiceLog');
+        Route::post('/invoice/log/store', 'storeInvoiceLog')->name('storeInvoiceLog');
         Route::get('/invoice/pay/{id}', 'invoicePay')->name('invoice.pay');
         Route::get('/invoice/eedit/{id}', 'invoiceEdit')->name('inv.edit');
         Route::post('/invoice/update/{id}', 'invoiceUpdate')->name('invoice.up');
@@ -90,12 +91,18 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         Route::post('/invoice/exchange/update', 'updateExchangeInvoice')->name('invoice.ex.update');
         // Route::get('/invoice/due/print/{id}', 'dueInvoicePrint')->name('due.invoice.print');
 
+        Route::get('/invoice/online/sale', 'onlineSale')->name('invoice.online.sale');
+        // Route::get('/invoice/online/order/accept', 'onlineOrderAccept')->name('invoice.orderAccept');
+        Route::post('/invoice/order-accept', 'orderAccept')->name('invoice.orderAccept');
+
+        Route::put('/invoice/{id}/status', 'updateStatus')->name('invoice.updateStatus');
+
     });
     Route::resource('invoice', InvoiceController::class);
 
     // --------------------> Purchase <--------------------
     Route::controller(PurchaseController::class)->group(function () {
-        Route::post('/purchase/log/store',  'storePurchaseLog')->name('storePurchaseLog');
+        Route::post('/purchase/log/store', 'storePurchaseLog')->name('storePurchaseLog');
         Route::get('/purchase/pay/{id}', 'purchasePay')->name('purchase.pay');
         Route::get('/purchase/edit/{id}', 'purchaseEdit')->name('purchase.edit');
         Route::post('/purchase/update/{id}', 'purchaseUpdate')->name('purchase.updat');
@@ -125,7 +132,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
     // --------------------> category <--------------------
     Route::resource('category', CategoryController::class)->except(['show', 'edit', 'create']);
-        // -------------------->Sub category <--------------------
+    // -------------------->Sub category <--------------------
     Route::resource('subCategory', SubCategoryController::class)->except(['show', 'edit', 'create']);
 
     // --------------------> Banner<--------------------
@@ -134,7 +141,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     // --------------------> Shop banner<--------------------
     Route::resource('shopBanner', ShopBannerController::class)->except(['show', 'edit', 'create']);
 
-Route::get('/get-subcategories/{categoryId}', [SubCategoryController::class, 'getSubcategories'])->name('get.subcategories');
+    Route::get('/get-subcategories/{categoryId}', [SubCategoryController::class, 'getSubcategories'])->name('get.subcategories');
 
 
 
@@ -327,4 +334,7 @@ Route::get('/get-subcategories/{categoryId}', [SubCategoryController::class, 'ge
         Route::post('damage/create/submit', 'insert')->name('damage.insert');
         Route::post('damage/delete/{id}', 'softDelete')->name('damage.delete');
     });
+            // ----------------------- Backend Order ---------------------
+
+Route::get('orderlist', [BackendOrderController::class, 'index'])->name('online.orderlist');
 });

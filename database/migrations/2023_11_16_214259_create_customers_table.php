@@ -16,7 +16,10 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->date('date')->nullable();
             $table->string('email')->nullable();
-            $table->string('phone')->unique();
+            $table->string('phone')->nullable();
+            $table->string('district')->nullable();
+            $table->string('thana')->nullable();
+            $table->string('unions')->nullable();
             $table->string('address')->nullable();
             $table->decimal('total_point',10,2)->default(0)->nullable();
             $table->decimal('open_receivable',10,2)->default(0)->nullable();

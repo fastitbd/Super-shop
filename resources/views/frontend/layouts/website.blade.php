@@ -5,7 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Fast Super Shop</title>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ asset("frontend") }}/css/all.min.css">
     <link rel="stylesheet" href="{{ asset("frontend") }}/css/owl.carousel.min.css">
@@ -21,7 +23,8 @@
                     <div class="col-md-3">
                         <div class="logu_lg">
                             <a class="" href="{{ route('home') }}">
-                                <img src="{{ asset("frontend") }}/images/logu.png" alt="" style="width: 100%; height: 100%;">
+                                <img src="{{ asset("frontend") }}/images/logu.png" alt=""
+                                    style="width: 100%; height: 100%;">
                             </a>
                         </div>
                     </div>
@@ -32,7 +35,8 @@
                                     <div class="col-md-7">
                                         <div class="mobile_search">
                                             <form class="d-flex search_bars" role="search">
-                                                <input class="form_controls" type="search" placeholder="Search" aria-label="Search" />
+                                                <input class="form_controls" type="search" placeholder="Search"
+                                                    aria-label="Search" />
                                                 <button class="btn" type="submit">Search</button>
                                             </form>
                                         </div>
@@ -41,8 +45,22 @@
                                         <div class="header_icon d-flex text-end justify-content-end">
                                             <div class="h_icons">
                                                 <ul class="d-flex">
-                                                    <li><a href="#"><i class="fa-solid fa-heart-circle-plus"></i></a></li>
-                                                    <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                                                    <li class="position-relative me-3">
+                                                        <a href="{{ route('wishlist.index') }}">
+                                                            <i class="fa-solid fa-heart-circle-plus"></i>
+                                                            <span class="count-badge" id="wishlist-count">
+                                                                {{ count(session('wishlist', [])) }}
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="position-relative">
+                                                        <a href="{{ route('cart.index') }}">
+                                                            <i class="fa-solid fa-cart-shopping"></i>
+                                                            <span class="count-badge" id="cart-count">
+                                                                {{ Cart::instance('cart')->count() }}
+                                                            </span>
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                             <div class="h_login">
@@ -65,9 +83,10 @@
                     <div class="col-4">
                         <div class="logo" style="width: 150px; height: 50px;">
                             <a href="{{ route('home') }}">
-                                <img src="{{ asset("frontend") }}/images/logu.png" alt="" style="width: 100%; height: 100%;">
+                                <img src="{{ asset("frontend") }}/images/logu.png" alt=""
+                                    style="width: 100%; height: 100%;">
                             </a>
-                           
+
                         </div>
                     </div>
                     <div class="col-8">
@@ -76,8 +95,16 @@
                                 <div class="h_icons_mobile">
                                     <ul class="d-flex">
                                         <li><a href="#"><i class="fa-solid fa-heart-circle-plus"></i></a></li>
-                                        <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
-                                        <li><a href="#"><i class="fa-regular fa-circle-user"></i><span>Login</span></a></li>
+                                        <li class="position-relative">
+                                            <a href="{{ route('cart.index') }}">
+                                                <i class="fa-solid fa-cart-shopping"></i>
+                                                <span class="count-badge" id="cart-count">
+                                                    {{ Cart::instance('cart')->count() }}
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li><a href="#"><i class="fa-regular fa-circle-user"></i><span>Login</span></a>
+                                        </li>
 
                                     </ul>
                                 </div>
@@ -109,7 +136,7 @@
         </div>
     </header>
 
-     @yield('content')
+    @yield('content')
     <footer>
         <div class="footer_part">
             <footer class="bg-light pt-5">
@@ -118,7 +145,8 @@
 
                         <!-- Logo & Contact -->
                         <div class="col-md-3 mb-4">
-                            <img src="{{ asset("frontend") }}/images/logu.png" alt="Logo" class="mb-2" style="max-width: 100px;">
+                            <img src="{{ asset("frontend") }}/images/logu.png" alt="Logo" class="mb-2"
+                                style="max-width: 100px;">
                             <h6 class="fw-bold">Always Here for You</h6>
                             <p class="mb-1 small">Call Us: 16469 (9am–9pm, Everyday)</p>
                             <p class="mb-1 small">Email: info.fastit@gmail.com</p>
@@ -155,7 +183,8 @@
                             <h6 class="fw-bold">Pay With</h6>
                             <div class="d-flex justify-content-center justify-content-md-end flex-wrap gap-2 mb-3">
                                 <img src="{{ asset("frontend") }}/images/visa.png" alt="Visa" style="height: 24px;">
-                                <img src="{{ asset("frontend") }}/images/mastercard.png" alt="Mastercard" style="height: 24px;">
+                                <img src="{{ asset("frontend") }}/images/mastercard.png" alt="Mastercard"
+                                    style="height: 24px;">
                                 <img src="{{ asset("frontend") }}/images/bkash.jpg" alt="bKash" style="height: 24px;">
                                 <!-- Add more payment icons -->
                             </div>
@@ -182,7 +211,7 @@
         const toggleButton = document.getElementById('toggleSidebar');
         const sidebar = document.querySelector('.side_category');
 
-        toggleButton.addEventListener('click', function() {
+        toggleButton.addEventListener('click', function () {
             sidebar.classList.toggle('show-sidebar');
         });
 
@@ -194,4 +223,87 @@
     <script src="{{ asset("frontend") }}/js/owl.carousel.min.js"></script>
     <script src="{{ asset("frontend") }}/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset("frontend") }}/js/custom.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).on("click", ".add-to-cart", function (e) {
+            e.preventDefault();
+
+            let id = $(this).data("id");
+            let qty = $(this).data("qty");
+
+            $.ajax({
+                url: "{{ route('cart.store') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: id,
+                    quantity: qty
+                },
+                success: function (response) {
+                    if (response.status === 'success') {
+                        // ✅ Update cart count
+                        $("#cart-count").text(response.cart_count);
+
+                        // ✅ Show notification
+                        Swal.fire({
+                            toast: true,
+                            position: 'top-end',
+                            icon: 'success',
+                            title: response.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!'
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).on("click", ".add-to-wishlist", function (e) {
+            e.preventDefault();
+
+            let id = $(this).data("id");
+
+            $.ajax({
+                url: "{{ route('wishlist.store') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: id
+                },
+                success: function (response) {
+                    if (response.status === 'success') {
+                        // ✅ Update wishlist count
+                        $("#wishlist-count").text(response.wishlist_count);
+
+                        // ✅ Show notification
+                        Swal.fire({
+                            toast: true,
+                            position: 'top-end',
+                            icon: 'success',
+                            title: response.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Could not add to wishlist!'
+                    });
+                }
+            });
+        });
+    </script>
+
+@stack('scripts')
 </body>

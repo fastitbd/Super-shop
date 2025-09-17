@@ -36,11 +36,25 @@
                         @if (check_permission('invoice.index'))
                             <a href="{{ route('invoice.index') }}">
                                 <i class="fa fa-shopping-bag"></i>
-                                <span>Sale List</span>
+                                <span>Outlet Sale List</span>
+                            </a>
+                        @endif
+                    </li>
+                    <li>
+                        @if (check_permission('invoice.online.sale'))
+                            <a href="{{ route('invoice.online.sale') }}">
+                                <i class="fa fa-shopping-bag"></i>
+                                <span>Online Sale List</span>
                             </a>
                         @endif
                     </li>
                 @endif
+
+                <li>
+                    <a href="{{ route('online.orderlist') }}"><i class="fa fa-first-order" aria-hidden="true"></i>
+                        <span>Order List</span>
+                    </a>
+                </li>
 
                 @if (main_menu_permission('purchase'))
                     <li>

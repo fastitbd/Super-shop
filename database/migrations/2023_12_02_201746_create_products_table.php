@@ -33,6 +33,7 @@ return new class extends Migration
             $table->tinyInteger('has_serial')->nullable();
             $table->string('images')->nullable();
             $table->string('status')->default(1);
+            $table->string('is_web')->default(1);
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });

@@ -163,6 +163,7 @@ class ProductController extends Controller
         $product->selling_price = $request->selling_price;
         $product->discount = $request->discount;
         $product->status = $request->status;
+        $product->is_web = $request->is_web;
         $product->description = $request->description;
         $product->slug = $slug;
         $product->created_by = Auth::user()->id;
@@ -251,6 +252,7 @@ class ProductController extends Controller
         $product->selling_price = $request->selling_price;
         $product->discount = $request->discount;
         $product->status = $request->status;
+        $product->is_web = $request->is_web;
         $product->description = $request->description;
         $product->slug = $slug;
 

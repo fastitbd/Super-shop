@@ -66,9 +66,9 @@
                                             </div>
                                             <div class="card-body mt-2 mb-2" style="margin: 0px 15px;">
                                                 <a href="{{url('category/' . $category->url)}}">
-<button class="btn btn-warning w-100">{{ $category->name }}</button>
+                                                    <button class="btn btn-warning w-100">{{ $category->name }}</button>
                                                 </a>
-                                                
+
                                             </div>
                                         </div>
                                     @endforeach
@@ -82,11 +82,11 @@
         </div>
     </section>
 
-    
+
     <section>
         <div class="product_part">
             <div class="container mt-5">
-               @foreach ($firstCategories as $category)
+                @foreach ($firstCategories as $category)
                     @if ($category->products->count() > 0)
                         <div class="common_heading text-center">
                             <h5>{{ $category->name }}</h5>
@@ -99,8 +99,11 @@
                                             <a href="{{ url('/product/details/' . $product->slug) }}">
                                                 <img src="{{ asset("uploads/products/" . $product->images) }}" alt="Product">
                                                 <div class="product_image_overly">
-                                                    <i class="fa-solid fa-heart-circle-plus"></i>
+                                                    <button class="add-to-wishlist" data-id="{{ $product->id }}">
+                                                        <i class="fa-solid fa-heart"></i>
+                                                    </button>
                                                 </div>
+
                                                 @if(!empty($product->discount) && $product->discount > 0)
                                                     <div class="product_offer">
                                                         <p>save <span>{{ number_format($product->discount, 0) }}%</span></p>
@@ -135,7 +138,10 @@
                                                 </div>
                                             @endif
 
-                                            <button class="cart_btn">
+                                            <!-- <button class="cart_btn">
+                                                                                                <i class="bi bi-cart"></i>
+                                                                                            </button> -->
+                                            <button class="cart_btn add-to-cart" data-id="{{ $product->id }}" data-qty="1">
                                                 <i class="bi bi-cart"></i>
                                             </button>
                                         </div>
@@ -187,8 +193,10 @@
                                         <div class="product_image">
                                             <a href="{{ url('/product/details/' . $product->slug) }}">
                                                 <img src="{{ asset("uploads/products/" . $product->images) }}" alt="Product">
-                                                <div class="product_image_overly">
-                                                    <i class="fa-solid fa-heart-circle-plus"></i>
+                                                 <div class="product_image_overly">
+                                                    <button class="add-to-wishlist" data-id="{{ $product->id }}">
+                                                        <i class="fa-solid fa-heart"></i>
+                                                    </button>
                                                 </div>
                                                 @if(!empty($product->discount) && $product->discount > 0)
                                                     <div class="product_offer">
@@ -224,7 +232,7 @@
                                                 </div>
                                             @endif
 
-                                            <button class="cart_btn">
+                                            <button class="cart_btn add-to-cart" data-id="{{ $product->id }}" data-qty="1">
                                                 <i class="bi bi-cart"></i>
                                             </button>
                                         </div>
@@ -237,7 +245,7 @@
             </div>
         </div>
     </section>
-    
+
 
 
     <section>

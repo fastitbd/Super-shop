@@ -272,6 +272,17 @@
                                 <textarea class="form-control" name="description" placeholder="Write Here" rows="2"></textarea>
                             </div>
 
+                                    <div class="mt-2 col-md-12 mt-5 ">
+                                <div class="form-check">
+                                    <input type="hidden" name="is_web" value="0" id="">
+                                    <input class="form-check-input" type="checkbox" value="1" name="is_web" checked
+                                        id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                                        Website
+                                    </label>
+                                </div>
+                            </div>
+
                             {{-- Image --}}
                             <div class="mt-2 col-md-6 ">
                                 <label for="image" class="frm_lbl ">Product

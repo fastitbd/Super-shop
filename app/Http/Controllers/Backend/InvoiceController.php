@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Customer;
 use App\Models\BankAccount;
 use App\Models\InvoiceItem;
+use App\Models\PurchaseItem;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Models\ActualPayment;
@@ -34,55 +35,139 @@ class InvoiceController extends Controller
 
         $data['invoices'] = Invoice::with('customer', 'user')
             ->orderBy('created_at', 'DESC')
+            ->where('sale_type', 'Outlet')
             ->paginate(20);
 
         if ($request->startDate != null && $request->endDate != null && $request->customer_id != null) {
             $data['invoices'] = Invoice::with('customer', 'user')->whereBetween('date', [$sdate, $edate])->where('customer_id', $request->customer_id)
+            ->where('sale_type', 'Outlet')
                 ->orderBy('created_at', 'DESC')
                 ->paginate(20)->appends([
-                    'customer_id' => $request->customer_id,
-                    'startDate' => $sdate,
-                    'endDate' => $edate,
-                ]);
+                        'customer_id' => $request->customer_id,
+                        'startDate' => $sdate,
+                        'endDate' => $edate,
+                    ]);
         }
         if ($request->startDate != null && $request->endDate != null) {
             $data['invoices'] = Invoice::with('customer', 'user')->whereBetween('date', [$sdate, $edate])
+             ->where('sale_type', 'Outlet')
                 ->orderBy('created_at', 'DESC')
+               
                 ->paginate(20)->appends([
-                    'startDate' => $sdate,
-                    'endDate' => $edate,
-                ]);
+                        'startDate' => $sdate,
+                        'endDate' => $edate,
+                    ]);
         }
         if ($request->invoice_no != null) {
             $data['invoices'] = Invoice::with('customer', 'user')->where('invoice_no', $request->invoice_no)
+            ->where('sale_type', 'Outlet')
                 ->orderBy('created_at', 'DESC')
                 ->paginate(20)->appends([
-                    'invoice_no' => $request->invoice_no,
-                ]);
+                        'invoice_no' => $request->invoice_no,
+                    ]);
         }
         if ($request->customer_id != null) {
             $data['invoices'] = Invoice::with('customer', 'user')->where('customer_id', $request->customer_id)
+             ->where('sale_type', 'Outlet')
                 ->orderBy('created_at', 'DESC')
                 ->paginate(20)->appends([
-                    'customer_id' => $request->customer_id,
-                ]);
+                        'customer_id' => $request->customer_id,
+                    ]);
         }
         if ($request->product_id != null) {
             $keyword = $request->product_id;
             $data['invoices'] = Invoice::whereHas('invoiceItems.product', function ($query) use ($keyword) {
                 $query->where('id', $keyword);
-            })->orderBy('created_at', 'DESC')->paginate(20)
+            })
+             ->where('sale_type', 'Outlet')
+            ->orderBy('created_at', 'DESC')->paginate(20)
                 ->appends([
                     'keyword' => $request->keyword,
                 ]);
         }
 
 
-        $invoices = Invoice::orderBy('created_at', 'desc')->get();  // Get all invoices
+        $invoices = Invoice::orderBy('created_at', 'desc') ->where('sale_type', 'Outlet')->get();  // Get all invoices
         $latestInvoice = $invoices->first();
 
 
         return view('backend.pages.invoice.index', $data, compact('invoices', 'latestInvoice'));
+    }
+
+    public function onlineSale(Request $request)
+    {
+        $data['invoice_no'] = $request->invoice_no;
+        $data['customer_id'] = $request->customer_id;
+        $data['startDate'] = $request->startDate;
+        $data['endDate'] = $request->endDate;
+        $data['product_id'] = $request->product_id;
+        $sdate = Carbon::createFromDate($request->startDate)->toDateString();
+        $edate = Carbon::createFromDate($request->endDate)->toDateString();
+
+        $data['invoices'] = Invoice::with('customer', 'user')->where('sale_type', 'Online')
+          
+            ->where('list_status',1)
+            ->orderBy('created_at', 'DESC')
+            ->paginate(20);
+
+        if ($request->startDate != null && $request->endDate != null && $request->customer_id != null) {
+            $data['invoices'] = Invoice::with('customer', 'user')->where('sale_type', 'Online')->where('list_status',1)->whereBetween('date', [$sdate, $edate])->where('customer_id', $request->customer_id)
+                ->orderBy('created_at', 'DESC')
+                ->paginate(20)->appends([
+                        'customer_id' => $request->customer_id,
+                        'startDate' => $sdate,
+                        'endDate' => $edate,
+                    ]);
+        }
+        if ($request->startDate != null && $request->endDate != null) {
+            $data['invoices'] = Invoice::with('customer', 'user')->where('sale_type', 'Online')->where('list_status',1)->whereBetween('date', [$sdate, $edate])
+                ->orderBy('created_at', 'DESC')
+                ->paginate(20)->appends([
+                        'startDate' => $sdate,
+                        'endDate' => $edate,
+                    ]);
+        }
+        if ($request->invoice_no != null) {
+            $data['invoices'] = Invoice::with('customer', 'user')->where('sale_type', 'Online')->where('invoice_no', $request->invoice_no)
+            ->where('list_status',1)
+                ->orderBy('created_at', 'DESC')
+                ->paginate(20)->appends([
+                        'invoice_no' => $request->invoice_no,
+                    ]);
+        }
+        if ($request->customer_id != null) {
+            $data['invoices'] = Invoice::with('customer', 'user')->where('sale_type', 'Online')->where('customer_id', $request->customer_id)
+                ->orderBy('created_at', 'DESC')
+                ->where('list_status',1)
+                ->paginate(20)->appends([
+                        'customer_id' => $request->customer_id,
+                    ]);
+        }
+        if ($request->product_id != null) {
+            $keyword = $request->product_id;
+            $data['invoices'] = Invoice::where('sale_type', 'Online')->whereHas('invoiceItems.product', function ($query) use ($keyword) {
+                $query->where('id', $keyword);
+            })->where('list_status',1)->orderBy('created_at', 'DESC')->paginate(20)
+                ->appends([
+                    'keyword' => $request->keyword,
+                ]);
+        }
+        if ($request->courier != null) {
+            $data['invoices'] = Invoice::with('customer', 'user')->where('sale_type', 'Online')->where('courier_type', $request->courier)
+                ->orderBy('created_at', 'DESC')
+                ->where('list_status',1)
+                ->paginate(20)->appends([
+                        'invoice_no' => $request->courier,
+                    ]);
+        }
+
+
+        $invoices = Invoice::orderBy('created_at', 'desc')->where('list_status',1)->get();
+        $latestInvoice = $invoices->first();
+
+
+        return view('backend.pages.invoice.onlineSale', $data, compact('invoices'));
+        // }
     }
 
     public function create()
@@ -129,6 +214,7 @@ class InvoiceController extends Controller
         $invoice->estimated_amount = $request->estimated_amount;
         $invoice->discount = ($request->discount_amount == null) ? '0.00' : $request->discount_amount;
         $invoice->discount_amount = $request->discount;
+        $invoice->sale_type =  'Outlet';
         $invoice->total_amount = $request->payable_amount;
         $invoice->previous_due = $request->previous_due;
         $invoice->note = $request->note;
@@ -155,7 +241,7 @@ class InvoiceController extends Controller
 
         DB::transaction(function () use ($request, $invoice) {
             if ($invoice->save()) {
-
+                $inv_profit = 0;
                 //save product_id and category_id in invoice_items table where $request->product_id is array of product_id
                 foreach ($request->product_id as $key => $product_id) {
                     $invoice_item = new InvoiceItem();
@@ -163,16 +249,18 @@ class InvoiceController extends Controller
                     $invoice_item->invoice_id = $invoice->id;
                     $invoice_item->product_id = $product_id;
                     $invoice_item->rate = $request->rate[$key];
+                    // $invoice_item->product_discount = $request->product_discount[$key];
+                    // $invoice_item->product_discount_amount = $request->product_discount_amount[$key];
                     if ($find_unit_id->is_service == 0) {
                         if ($find_unit_id->unit->related_unit == null) {
                             $invoice_item->main_qty = $request->main_qty[$key];
-                            $saleQty =  $request->main_qty[$key];
+                            $saleQty = $request->main_qty[$key];
                         } else {
                             $invoice_item->main_qty = $request->main_qty[$key];
                             $invoice_item->sub_qty = $request->sub_qty[$key];
                             $main = $request->main_qty[$key] * $find_unit_id->unit->related_value;
                             $sub = $request->sub_qty[$key];
-                            $saleQty =  $main + $sub;
+                            $saleQty = $main + $sub;
                         }
                         $invoice_item->subtotal = $request->sub_total[$key];
                         $invoice_item->inv_subtotal = $request->sub_total[$key];
@@ -183,6 +271,8 @@ class InvoiceController extends Controller
                         $invoice_item->inv_subtotal = $request->sub_total[$key];
                         $invoice_item->pur_subtotal = 0.00;
                     }
+                    $invoice_item->profit = $invoice_item->inv_subtotal - $invoice_item->pur_subtotal;
+                    $inv_profit += $invoice_item->profit;
 
                     if (!empty($request->variation[$key])) {
                         $invoice_item->product_variation_id = $request->variation[$key];
@@ -192,7 +282,8 @@ class InvoiceController extends Controller
                     $invoice_item->date = $request->date;
                     $invoice_item->save();
                 }
-
+                $invoice->profit = $inv_profit;
+                $invoice->save();
                 $id = $invoice->id;
                 $type = 'Invoice';
 
@@ -358,10 +449,11 @@ class InvoiceController extends Controller
                     if ($product->unit->related_unit == null) {
                         $qty = $item->main_qty;
                     } else {
-                        $m_qty = $item->main_qty;;
+                        $m_qty = $item->main_qty;
+                        ;
                         $s_qty = $item->sub_qty;
                         $main = $m_qty * $product->unit->related_value;
-                        $qty =  $main + $s_qty;
+                        $qty = $main + $s_qty;
                     }
                     productStockUpdate($product->id, $qty);
                     $item->delete();
@@ -375,13 +467,13 @@ class InvoiceController extends Controller
                     $invoice_item->rate = $request->rate[$key];
                     if ($find_unit_id->unit->related_unit == null) {
                         $invoice_item->main_qty = $request->main_qty[$key];
-                        $saleQty =  $request->main_qty[$key];
+                        $saleQty = $request->main_qty[$key];
                     } else {
                         $invoice_item->main_qty = $request->main_qty[$key];
                         $invoice_item->sub_qty = $request->sub_qty[$key];
                         $main = $request->main_qty[$key] * $find_unit_id->unit->related_value;
                         $sub = $request->sub_qty[$key];
-                        $saleQty =  $main + $sub;
+                        $saleQty = $main + $sub;
                     }
                     $invoice_item->subtotal = $request->sub_total[$key];
                     $invoice_item->inv_subtotal = $request->sub_total[$key];
@@ -421,10 +513,11 @@ class InvoiceController extends Controller
                 if ($product->unit->related_unit == null) {
                     $qty = $item->main_qty;
                 } else {
-                    $m_qty = $item->main_qty;;
+                    $m_qty = $item->main_qty;
+                    ;
                     $s_qty = $item->sub_qty;
                     $main = $m_qty * $product->unit->related_value;
-                    $qty =  $main + $s_qty;
+                    $qty = $main + $s_qty;
                 }
                 productStockUpdate($product->id, $qty);
                 $item->delete();
@@ -562,7 +655,7 @@ class InvoiceController extends Controller
                     $transaction->invoice_id = $id;
                     $transaction->customer_id = $request->customer_id;
                     $transaction->debit = NULL;
-                    $transaction->credit = $request->paid_amount  - $request->balance;
+                    $transaction->credit = $request->paid_amount - $request->balance;
                     $transaction->created_by = auth()->user()->id;
                     $transaction->save();
                 }
@@ -619,7 +712,7 @@ class InvoiceController extends Controller
                         $transaction->invoice_id = $id;
                         $transaction->customer_id = $request->customer_id;
                         $transaction->debit = NULL;
-                        $transaction->credit = $request->paid_amount  - $request->balance;
+                        $transaction->credit = $request->paid_amount - $request->balance;
                         $transaction->created_by = auth()->user()->id;
                         $transaction->save();
                     }
@@ -662,7 +755,7 @@ class InvoiceController extends Controller
                             $transaction->invoice_id = $id;
                             $transaction->customer_id = $request->customer_id;
                             $transaction->debit = NULL;
-                            $transaction->credit = $amount  - $request->balance;
+                            $transaction->credit = $amount - $request->balance;
                             $transaction->created_by = auth()->user()->id;
                             $transaction->save();
                         }
@@ -721,11 +814,157 @@ class InvoiceController extends Controller
                     $transaction->invoice_id = $id;
                     $transaction->customer_id = $request->customer_id;
                     $transaction->debit = NULL;
-                    $transaction->credit = $request->paid_amount  - $request->balance;
+                    $transaction->credit = $request->paid_amount - $request->balance;
                     $transaction->created_by = auth()->user()->id;
                     $transaction->save();
                 }
             }
         });
     }
+
+
+    public function onlineOrderAccept(Request $request)
+    {
+        $accessToken = getAccessToken();
+        foreach ($request->seletedRows as $row) {
+            $invoice = Invoice::find($row);
+
+            $customer_info = Customer::find($invoice->customer_id);
+            $qty = InvoiceItem::where('invoice_id', $invoice->id)->count();
+            // $invoice->shop_id = $request->shop_id;
+            // $store_id = $request->shop_id;
+
+            $orderData = [
+                "store_id" => 142492, // lapreepries
+                "recipient_name" => $customer_info->name,
+                "recipient_phone" => $customer_info->phone,
+                "recipient_address" => $customer_info->address,
+                "recipient_city" => $customer_info->city_id,
+                "recipient_zone" => $customer_info->zone_id,
+                "recipient_area" => $customer_info->area_id,
+                "delivery_type" => 48,
+                "item_type" => 2,
+                "special_instruction" => '',
+                "item_quantity" => $qty,
+                "item_weight" => 0.5,
+                "item_description" => '',
+                "amount_to_collect" => (int) $invoice->total_due,
+            ];
+
+            // return $orderData;
+            $orderResponse = createOrder($accessToken, $orderData);
+            // dd($orderResponse);
+            $ahmad = $orderResponse['data'];
+            $invoice->courier_type = 'Pathao';
+            $invoice->consignment_id = $ahmad['consignment_id'];
+            $invoice->order_status = $ahmad['order_status'];
+            $invoice->save();
+            if ($invoice->save()) {
+                $invoice->update(['is_web' => 2]);
+            }
+            ;
+            notify()->success('Invoice Accepted Successfully');
+            return redirect()->back();
+        }
+        // return response()->json(['success' => true]);
+        // notify()->success('Invoice update status successfully');
+        // return back();
+    }
+
+    // public function orderAccept(Request $request)
+    // {
+    //     $ids = $request->ids;
+
+    //     if (!empty($ids)) {
+    //         foreach ($ids as $id) {
+    //             $invoice = Invoice::find($id);
+    //             if ($invoice) {
+    //                 $invoice->list_status = 1; // status update
+    //                 $invoice->save();          // save object
+    //             }
+    //         }
+
+    //         return response()->json([
+    //             'status' => true,
+    //             'message' => 'Selected orders accepted successfully!',
+    //             'ids' => $ids
+    //         ]);
+    //     }
+
+    //     $invoice = Invoice::where('id',$ids)->get();
+
+        
+
+    //     return response()->json([
+    //         'status' => false,
+    //         'message' => 'No orders selected.'
+    //     ]);
+    // }
+
+public function orderAccept(Request $request)
+{
+    $ids = $request->input('ids', []); // fallback empty array
+
+    // যদি single id string হয়ে আসে, তাহলে array বানিয়ে নেই
+    if (!is_array($ids)) {
+        $ids = [$ids];
+    }
+
+    if (count($ids) > 0) {
+        foreach ($ids as $id) {
+            $invoice = Invoice::find($id);
+
+            if ($invoice) {
+                // 1. Update invoice status
+                $invoice->list_status = 1;
+                $invoice->save();
+
+                // 2. Get all items in this invoice
+                $items = $invoice->items ?? collect(); // relation null হলে empty collection দিবে
+
+                foreach ($items as $item) {
+                    // 3. Find first purchase item with stock
+                    $purchaseItem = PurchaseItem::where('product_id', $item->product_id)
+                        ->where('stock_qty', '>', 0)
+                        ->first();
+
+                    if ($purchaseItem) {
+                        // 4. Deduct ordered quantity from stock
+                        $purchaseItem->stock_qty -= $item->main_qty;
+
+                        // 5. Prevent negative stock
+                        if ($purchaseItem->stock_qty < 0) {
+                            $purchaseItem->stock_qty = 0;
+                        }
+
+                        // 6. Save updated stock
+                        $purchaseItem->save();
+                    }
+                }
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Selected orders accepted successfully and stock updated!',
+            'ids' => $ids
+        ]);
+    }
+
+    return response()->json([
+        'status' => false,
+        'message' => 'No order IDs found.'
+    ]);
+}
+
+
+    public function updateStatus(Request $request, $id)
+    {
+        $invoice = Invoice::findOrFail($id);
+        $invoice->status = $request->input('status');
+        $invoice->save();
+
+        return back()->with('success', 'Status updated successfully.');
+    }
+
 }
