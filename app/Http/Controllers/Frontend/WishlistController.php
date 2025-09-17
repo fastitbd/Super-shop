@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 
 class WishlistController extends Controller
-{
-    // Show wishlist
+{ // Show wishlist
     public function index()
     {
         $wishlist = session()->get('wishlist', []);
@@ -47,7 +46,7 @@ class WishlistController extends Controller
         }
     }
 
-    // Remove product from wishlist
+    // Remove single product from wishlist
     public function removeProduct(Request $request)
     {
         try {
@@ -71,29 +70,30 @@ class WishlistController extends Controller
         }
     }
 
-public function addAllToCart()
-{
-    $wishlist = session()->get('wishlist', []);
-    $products = Product::whereIn('id', $wishlist)->get();
+    // Add all wishlist items to cart
+    public function addAllToCart()
+    {
+        $wishlist = session()->get('wishlist', []);
+        $products = Product::whereIn('id', $wishlist)->get();
 
-    foreach($products as $product){
-        \Cart::instance('cart')->add([
-            'id'=>$product->id,
-            'name'=>$product->name,
-            'qty'=>1,
-            'price'=>$product->selling_price,
-        ])->associate('App\Models\Product'); // important
+        foreach ($products as $product) {
+            \Cart::instance('cart')->add([
+                'id'    => $product->id,
+                'name'  => $product->name,
+                'qty'   => 1,
+                'price' => $product->selling_price,
+            ])->associate('App\Models\Product');
+        }
+
+        // Clear wishlist after adding to cart
+        session()->forget('wishlist');
+
+        return response()->json([
+            'status'     => 200,
+            'message'    => 'All wishlist items added to cart!',
+            'cart_count' => \Cart::instance('cart')->count()
+        ]);
     }
-
-    session()->forget('wishlist');
-
-    return response()->json([
-        'status'=>200,
-        'message'=>'All wishlist items added to cart!',
-        'cart_count'=>\Cart::instance('cart')->count()
-    ]);
-}
-
 
 
 }

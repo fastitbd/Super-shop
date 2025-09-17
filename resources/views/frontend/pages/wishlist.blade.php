@@ -64,6 +64,7 @@
 @endsection
 
 @push('scripts')
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 $(document).ready(function(){
@@ -72,6 +73,7 @@ $(document).ready(function(){
     $(document).on('click', '.remove-btn', function(e){
         e.preventDefault();
         let id = $(this).data('id');
+        let btn = $(this);
 
         $.ajax({
             url: "{{ route('wishlist.remove') }}",
@@ -87,7 +89,16 @@ $(document).ready(function(){
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    location.reload();
+
+                    // Remove item from UI
+                    btn.closest('.wishlist-item').remove();
+
+                    // If wishlist empty, show message
+                    if($('.wishlist-item').length === 0){
+                        $('.wishlist-wrapper').html(
+                            '<div class="text-center my-5"><h3>Your wishlist is empty!</h3><a href="{{ route('home') }}" class="btn btn-warning mt-3">Shop Now</a></div>'
+                        );
+                    }
                 }
             }
         });
@@ -97,6 +108,7 @@ $(document).ready(function(){
     $(document).on('click', '.add-to-cart-single', function(e){
         e.preventDefault();
         let id = $(this).data('id');
+        let btn = $(this);
 
         $.ajax({
             url: "{{ route('cart.store') }}",
@@ -113,6 +125,20 @@ $(document).ready(function(){
                         showConfirmButton: false,
                         timer: 1500
                     });
+                     // Auto reload to sync frontend with session
+                setTimeout(function(){
+                    location.reload();
+                }, 500); // 0.5 sec delay for smooth toast
+
+                    // Remove item from wishlist UI
+                    btn.closest('.wishlist-item').remove();
+
+                    // If wishlist empty, show message
+                    if($('.wishlist-item').length === 0){
+                        $('.wishlist-wrapper').html(
+                            '<div class="text-center my-5"><h3>Your wishlist is empty!</h3><a href="{{ route('home') }}" class="btn btn-warning mt-3">Shop Now</a></div>'
+                        );
+                    }
                 }
             },
             error: function(xhr){
@@ -145,9 +171,15 @@ $(document).ready(function(){
                         showConfirmButton: false,
                         timer: 2000
                     });
+                     // Auto reload to sync frontend with session
+                setTimeout(function(){
+                    location.reload();
+                }, 500); // 0.5 sec delay for smooth toast
 
                     // Clear wishlist visually
-                    $('.wishlist-wrapper').html('<div class="text-center my-5"><h3>Your wishlist is empty!</h3><a href="{{ route('home') }}" class="btn btn-warning mt-3">Shop Now</a></div>');
+                    $('.wishlist-wrapper').html(
+                        '<div class="text-center my-5"><h3>Your wishlist is empty!</h3><a href="{{ route('home') }}" class="btn btn-warning mt-3">Shop Now</a></div>'
+                    );
                 }
             },
             error: function(xhr){
@@ -162,4 +194,5 @@ $(document).ready(function(){
 
 });
 </script>
+
 @endpush

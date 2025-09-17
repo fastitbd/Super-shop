@@ -45,23 +45,25 @@
                             <p class="text-success"><i class="bi bi-check-circle"></i> In stock</p>
 
                             <!-- Quantity and Cart -->
-                            <div class="d-flex align-items-center mb-3 mt-4">
-                                <div class="input-group me-2" style="width: 120px;">
-                                    <button class="btn btn-outline-secondary" type="button">-</button>
-                                    <input type="text" class="form-control text-center" value="1">
-                                    <button class="btn btn-outline-secondary" type="button">+</button>
-                                </div>
+                            <!-- <div class="d-flex align-items-center mb-3 mt-4">
+                                    <div class="input-group me-2" style="width: 120px;">
+                                        <button class="btn btn-outline-secondary" type="button">-</button>
+                                        <input type="text" class="form-control text-center" value="1">
+                                        <button class="btn btn-outline-secondary" type="button">+</button>
+                                    </div>
 
-                            </div>
+                                </div> -->
 
                             <!-- Add to Cart -->
-                            <button class="btn btn-primary w-100 mb-3">
+                            <button class="btn btn-primary w-100 mb-3 add-to-cart" data-id="{{ $product->id }}"
+                                data-qty="1">
                                 <i class="bi bi-cart-plus"></i> Add to cart
                             </button>
 
                             <!-- Wishlist & Compare -->
                             <div class="d-flex justify-content-between mb-3">
-                                <a href="#"><i class="bi bi-heart"></i> Add to wish list</a>
+                                <a class="add-to-wishlist" data-id="{{ $product->id }} "><i class="bi bi-heart"></i> Add to
+                                    wish list</a>
                                 <a href="#"><i class="bi bi-bar-chart"></i> Compare</a>
                             </div>
 
@@ -69,7 +71,8 @@
                             <div>
                                 <p><i class="bi bi-geo-alt"></i> Shipping time and rates: <strong>Dhaka</strong></p>
                                 <p><i class="bi bi-truck"></i> Shipping: about within 90 minutes, from
-                                    <strong>৳49.00</strong></p>
+                                    <strong>৳49.00</strong>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -151,7 +154,10 @@
                                     <a href="{{ url('/product/details/' . $product->slug) }}">
                                         <img src="{{ asset("uploads/products/" . $product->images) }}" alt="Product">
                                         <div class="product_image_overly">
-                                            <i class="fa-solid fa-heart-circle-plus"></i>
+
+                                            <button class="add-to-wishlist" data-id="{{ $product->id }}">
+                                                <i class="fa-solid fa-heart"></i>
+                                            </button>
                                         </div>
                                         @if(!empty($product->discount) && $product->discount > 0)
                                             <div class="product_offer">
@@ -187,7 +193,7 @@
                                         </div>
                                     @endif
 
-                                    <button class="cart_btn">
+                                    <button class="cart_btn add-to-cart" data-id="{{ $product->id }}" data-qty="1">
                                         <i class="bi bi-cart"></i>
                                     </button>
                                 </div>

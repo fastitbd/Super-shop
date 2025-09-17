@@ -138,9 +138,6 @@
                                                 </div>
                                             @endif
 
-                                            <!-- <button class="cart_btn">
-                                                                                                <i class="bi bi-cart"></i>
-                                                                                            </button> -->
                                             <button class="cart_btn add-to-cart" data-id="{{ $product->id }}" data-qty="1">
                                                 <i class="bi bi-cart"></i>
                                             </button>

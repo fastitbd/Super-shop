@@ -27,6 +27,12 @@ public function addToCart(Request $request)
         $price
     )->associate('App\Models\Product');
 
+        $wishlist = session()->get('wishlist', []);
+    if (($key = array_search($product->id, $wishlist)) !== false) {
+        unset($wishlist[$key]);
+        session()->put('wishlist', $wishlist);
+    }
+
     return response()->json([
         'status' => 'success',
         'message' => 'Item has been added successfully!',

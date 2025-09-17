@@ -150,7 +150,9 @@
                                             <a href="{{ url('/product/details/' . $product->slug) }}">
                                                 <img src="{{ asset("uploads/products/" . $product->images) }}" alt="Product">
                                                 <div class="product_image_overly">
-                                                    <i class="fa-solid fa-heart-circle-plus"></i>
+                                                    <button class="add-to-wishlist" data-id="{{ $product->id }}">
+                                                        <i class="fa-solid fa-heart"></i>
+                                                    </button>
                                                 </div>
                                                 @if(!empty($product->discount) && $product->discount > 0)
                                                     <div class="product_offer">
@@ -179,7 +181,7 @@
                                                 <p class="old_price">৳70.00</p>
                                                 <p class="new_price">৳{{$product->selling_price}}</p>
                                             </div>
-                                            <button class="cart_btn">
+                                           <button class="cart_btn add-to-cart" data-id="{{ $product->id }}" data-qty="1">
                                                 <i class="bi bi-cart"></i>
                                             </button>
                                         </div>
